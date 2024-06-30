@@ -180,19 +180,20 @@ This is nessicary because 3D asset files can have more than one <a class="refere
 asset file with more than one <a class="reference internal" href="autoapi/Loxoc/index.html#Loxoc.Mesh" title="Loxoc.Mesh"><code class="xref py py-class docutils literal notranslate"><span class="pre">Mesh</span></code></a> inside of it, you can extract them from their <a class="reference internal" href="autoapi/Loxoc/index.html#Loxoc.MeshDict" title="Loxoc.MeshDict"><code class="xref py py-class docutils literal notranslate"><span class="pre">MeshDict</span></code></a>
 to new individual <a class="reference internal" href="autoapi/Loxoc/index.html#Loxoc.MeshDict" title="Loxoc.MeshDict"><code class="xref py py-class docutils literal notranslate"><span class="pre">MeshDict</span></code></a> s to be used in <a class="reference internal" href="autoapi/Loxoc/index.html#Loxoc.Object3D" title="Loxoc.Object3D"><code class="xref py py-class docutils literal notranslate"><span class="pre">Object3D</span></code></a> s like so:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">my_assets</span><span class="p">:</span> <span class="n">MeshDict</span> <span class="o">=</span> <span class="n">Mesh</span><span class="o">.</span><span class="n">from_file</span><span class="p">(</span><span class="s2">&quot;./assets/models/model_name/model_name.gltf&quot;</span><span class="p">)</span>
+<span class="c1"># Import the 3D asset file.</span>
 
-<span class="n">player_model</span> <span class="o">=</span> <span class="n">MeshDict</span><span class="p">([</span><span class="n">my_assets</span><span class="p">[</span><span class="s2">&quot;player_model&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]])</span>
-<span class="c1"># We can extract the meshes we need by name.  We index the list returned by `my_assets[&quot;player_model&quot;]`</span>
-<span class="c1"># with `[0]` to get the `Mesh` object. `my_assets[&quot;player_model&quot;]` stores a list incase there</span>
-<span class="c1"># are more than one `Mesh` with the same name.</span>
-<span class="c1">#</span>
-<span class="c1"># We then create a new `MeshDict` which contains the models we need.</span>
-<span class="c1"># This can now be used in an Object3D.</span>
+<span class="n">player_model</span> <span class="o">=</span> <span class="n">MeshDict</span><span class="p">([</span><span class="n">my_assets</span><span class="p">[</span><span class="s2">&quot;player_model&quot;</span><span class="p">]])</span>
+<span class="c1"># Extract the Mesh into its own group/MeshDict</span>
 
 <span class="n">player_object</span> <span class="o">=</span> <span class="n">Object3D</span><span class="p">(</span><span class="n">player_model</span><span class="p">,</span> <span class="n">Vec3</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">),</span> <span class="n">vec3</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="n">vec3</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">))</span>
 <span class="c1"># Now our model is ready to be used.</span>
 </pre></div>
 </div>
+<p>We can extract the <a class="reference internal" href="autoapi/Loxoc/index.html#Loxoc.Mesh" title="Loxoc.Mesh"><code class="xref py py-class docutils literal notranslate"><span class="pre">Mesh</span></code></a> s we need from the <code class="docutils literal notranslate"><span class="pre">my_assets</span></code>  <a class="reference internal" href="autoapi/Loxoc/index.html#Loxoc.MeshDict" title="Loxoc.MeshDict"><code class="xref py py-class docutils literal notranslate"><span class="pre">MeshDict</span></code></a> by name.
+Hence we use <code class="docutils literal notranslate"><span class="pre">my_assets[&quot;player_model&quot;]</span></code>.  This is assuming your desired <a class="reference internal" href="autoapi/Loxoc/index.html#Loxoc.Mesh" title="Loxoc.Mesh"><code class="xref py py-class docutils literal notranslate"><span class="pre">Mesh</span></code></a>
+is at the top level of your imported 3D file/asset’s heirarchy.  if it is in a group inside
+the 3D file/asset you imported you could do something like:
+<code class="docutils literal notranslate"><span class="pre">my_assets[&quot;group_name&quot;][&quot;player_model&quot;]</span></code></p>
 </div></blockquote>
 </li>
 <li><p><a class="reference internal" href="autoapi/Loxoc/index.html#Loxoc.Object3D" title="Loxoc.Object3D"><code class="xref py py-class docutils literal notranslate"><span class="pre">Object3D</span></code></a> :</p>
