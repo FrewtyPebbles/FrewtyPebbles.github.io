@@ -13,6 +13,14 @@ Submodules
    /autoapi/Loxoc/core/index
 
 
+Attributes
+----------
+
+.. autoapisummary::
+
+   Loxoc.UniformValueType
+
+
 Classes
 -------
 
@@ -25,6 +33,7 @@ Classes
    Loxoc.Material
    Loxoc.Object3D
    Loxoc.Shader
+   Loxoc.Vec4
    Loxoc.Vec3
    Loxoc.Vec2
    Loxoc.Window
@@ -43,10 +52,32 @@ Classes
    Loxoc.Sprite
    Loxoc.Object2D
    Loxoc.PointLight
+   Loxoc.DirectionalLight
+   Loxoc.SpotLight
+   Loxoc.Collider
+   Loxoc.BoxCollider
+   Loxoc.Matrix4x4
+   Loxoc.Matrix3x4
+   Loxoc.Matrix2x4
+   Loxoc.Matrix3x3
+   Loxoc.Matrix4x3
+   Loxoc.Matrix2x3
+   Loxoc.Matrix2x2
+   Loxoc.Matrix3x2
+   Loxoc.Matrix4x2
 
 
 Package Contents
 ----------------
+
+.. py:data:: UniformValueType
+
+   The types able to be sent to shaders via Uniforms.
+
+   Includes:
+
+   `int` , `float` , :class:`Matrix2x2` , :class:`Matrix2x3` , :class:`Matrix2x4` , :class:`Matrix3x2` , :class:`Matrix3x3` , :class:`Matrix3x4` , :class:`Matrix4x2` , :class:`Matrix4x3` , :class:`Matrix4x4` , :class:`Vec2` , :class:`Vec3` , :class:`Vec4`
+
 
 .. py:class:: ShaderType(*args, **kwds)
 
@@ -174,13 +205,13 @@ Package Contents
    You may supply your own :class:`Shader` s to customize how Objects are rendered.
 
 
-   .. py:method:: set_uniform(name: str, value: list[float] | int | float, type: str) -> None
+   .. py:method:: set_uniform(name: str, value: UniformValueType) -> None
 
       Sets the value of a uniform for the shaders in the material.
 
 
 
-.. py:class:: Object3D(mesh_data: MeshDict, position: Vec3 = Vec3(0.0, 0.0, 0.0), rotation: Vec3 = Vec3(0.0, 0.0, 0.0), scale: Vec3 = Vec3(1.0, 1.0, 1.0), material: Material | None = None)
+.. py:class:: Object3D(mesh_data: MeshDict, position: Vec3 = Vec3(0.0, 0.0, 0.0), rotation: Vec3 = Vec3(0.0, 0.0, 0.0), scale: Vec3 = Vec3(1.0, 1.0, 1.0), collider: Collider | None = None, material: Material | None = None)
 
    This class is your 3D game object.
 
@@ -196,6 +227,30 @@ Package Contents
       :type:  Material
 
       The :class:`Material` used to specify how to render the :class:`Object3D`
+
+
+
+   .. py:method:: add_collider(collider: Collider) -> None
+
+      Adds a :class:`Collider` to the object.
+
+
+
+   .. py:method:: remove_collider(collider: Collider) -> None
+
+      Removes a :class:`Collider` from the object.
+
+
+
+   .. py:method:: check_collision(intersection: Vec3 | Object3D) -> bool
+
+      Checks for a collision between this :class:`Object3D` and another :class:`Object3D` or :class:`Vec3` .
+
+
+
+   .. py:method:: get_model_matrix() -> Matrix4x4
+
+      Returns an instance of the model matrix as a :class:`Matrix4x4` .
 
 
 
@@ -220,7 +275,7 @@ Package Contents
 
 
 
-   .. py:method:: set_uniform(name: str, value: list[float] | int | float, type: str) -> None
+   .. py:method:: set_uniform(name: str, value: UniformValueType) -> None
 
       Sets the value of a uniform for the :class:`Shader` s in the object's :class:`Material`.
 
@@ -233,6 +288,118 @@ Package Contents
 
    .. py:method:: from_file(filepath: str, type: ShaderType) -> Shader
       :classmethod:
+
+
+
+.. py:class:: Vec4(x: float, y: float, z: float, w: float)
+
+   A 4 float datastructure used to represent positional data, colors, or whatever you may need it for.
+   Contains useful linear algebra operators and functions.
+
+
+   .. py:method:: __copy__() -> Quaternion
+
+      Copies the :class:`Vec4` .
+
+
+
+   .. py:method:: __repr__() -> str
+
+      Returns a string representation of the :class:`Vec4` .
+
+
+
+   .. py:method:: __neg__() -> Vec4
+
+      Negates the :class:`Vec4` .
+
+
+
+   .. py:property:: x
+      :type: float
+
+      The x component :class:`Vec4` .
+
+
+
+   .. py:property:: y
+      :type: float
+
+      The y component :class:`Vec4` .
+
+
+
+   .. py:property:: z
+      :type: float
+
+      The z component :class:`Vec4` .
+
+
+
+   .. py:property:: w
+      :type: float
+
+      The w component :class:`Vec4` .
+
+
+
+   .. py:method:: __add__(other: Vec4 | float) -> Vec4
+
+      Adds the :class:`Vec4` .
+
+
+
+   .. py:method:: __sub__(other: Vec4 | float) -> Vec4
+
+      Subtracts the :class:`Vec4` .
+
+
+
+   .. py:method:: __mul__(other: Vec4 | float | Quaternion) -> Vec4
+
+      Multiplies the :class:`Vec4` .
+
+
+
+   .. py:method:: __truediv__(other: Vec4 | float) -> Vec4
+
+      Divides the two :class:`Vec4` s.
+
+
+
+   .. py:method:: dot(other: Vec4) -> float
+
+      Returns the dot product of the two :class:`Vec4` s.
+
+
+
+   .. py:method:: get_magnitude() -> float
+
+      Returns the magnitude of the :class:`Vec4` .
+
+
+
+   .. py:method:: get_normalized() -> Vec4
+
+      Returns the normalized :class:`Vec4` .
+
+
+
+   .. py:method:: to_vec3() -> Vec3
+
+      Converts the :class:`Vec4` to a :class:`Vec3` using its x, y and z components.
+
+
+
+   .. py:method:: to_vec2() -> Vec2
+
+      Converts the :class:`Vec4` to a :class:`Vec2` using its x and y components.
+
+
+
+   .. py:method:: outer_product(vec: Vec2 | Vec3 | Vec4) -> Matrix2x4 | Matrix3x4 | Matrix4x4
+
+      Calculates the outer product.
 
 
 
@@ -351,6 +518,12 @@ Package Contents
 
 
 
+   .. py:method:: outer_product(vec: Vec2 | Vec3 | Vec4) -> Matrix2x3 | Matrix3x3 | Matrix4x3
+
+      Calculates the outer product.
+
+
+
 .. py:class:: Vec2(x: float, y: float)
 
    A 2 float datastructure used to represent positional data, 2D rotation, or whatever you may need it for.
@@ -424,6 +597,12 @@ Package Contents
 
 
       Construct a normalized :class:`Vec2` given an angle.
+
+
+
+   .. py:method:: outer_product(vec: Vec2 | Vec3 | Vec4) -> Matrix2x2 | Matrix3x2 | Matrix4x2
+
+      Calculates the outer product.
 
 
 
@@ -569,6 +748,54 @@ Package Contents
    .. py:method:: remove_point_light_list(objs: list[PointLight]) -> None
 
       Removes multiple :class:`PointLight` s from the scene.  Only :class:`PointLight` s which are in the scene will be rendered by the camera.
+
+
+
+   .. py:method:: add_directional_light(obj: DirectionalLight) -> None
+
+      Adds the :class:`DirectionalLight` to the scene.  This ensures that the :class:`DirectionalLight` is rendered by the camera.
+
+
+
+   .. py:method:: remove_directional_light(obj: DirectionalLight) -> None
+
+      Removes the :class:`DirectionalLight` from the scene.  Only :class:`DirectionalLight` s which are in the scene will be rendered by the camera.
+
+
+
+   .. py:method:: add_directional_light_list(objs: list[DirectionalLight]) -> None
+
+      Adds multiple :class:`DirectionalLight` s to the scene.  This ensures that they are rendered by the camera.
+
+
+
+   .. py:method:: remove_directional_light_list(objs: list[DirectionalLight]) -> None
+
+      Removes multiple :class:`DirectionalLight` s from the scene.  Only :class:`DirectionalLight` s which are in the scene will be rendered by the camera.
+
+
+
+   .. py:method:: add_spot_light(obj: SpotLight) -> None
+
+      Adds the :class:`SpotLight` to the scene.  This ensures that the :class:`SpotLight` is rendered by the camera.
+
+
+
+   .. py:method:: remove_spot_light(obj: SpotLight) -> None
+
+      Removes the :class:`SpotLight` from the scene.  Only :class:`SpotLight` s which are in the scene will be rendered by the camera.
+
+
+
+   .. py:method:: add_spot_light_list(objs: list[SpotLight]) -> None
+
+      Adds multiple :class:`SpotLight` s to the scene.  This ensures that they are rendered by the camera.
+
+
+
+   .. py:method:: remove_spot_light_list(objs: list[SpotLight]) -> None
+
+      Removes multiple :class:`SpotLight` s from the scene.  Only :class:`SpotLight` s which are in the scene will be rendered by the camera.
 
 
 
@@ -1445,13 +1672,13 @@ Package Contents
 
 
 
-   .. py:method:: set_uniform(name: str, value: list[float] | int | float, type: str) -> None
+   .. py:method:: set_uniform(name: str, value: UniformValueType) -> None
 
       Sets the value of a uniform for the shaders in the :class:`Object2D` 's :class:`Material`.
 
 
 
-.. py:class:: PointLight(position: Vec3, radius: float, color: Vec3)
+.. py:class:: PointLight(position: Vec3, radius: float, color: Vec3, intensity: float)
 
    A Object that emits light from a :class:`Vec3` point in 3D space.
 
@@ -1464,9 +1691,685 @@ Package Contents
 
 
    .. py:property:: color
-      :type: Quaternion
+      :type: Vec3
 
       The :class:`Vec3` color of the light in rgb.
+
+
+
+   .. py:property:: intensity
+      :type: float
+
+      The intensity of the light.
+
+
+
+   .. py:property:: radius
+      :type: float
+
+      The radius of the light
+
+
+
+.. py:class:: DirectionalLight(rotation: Vec3 = None, color: Vec3 = None, ambient: Vec3 = None, diffuse: Vec3 = None, specular: Vec3 = None, intensity: float = 1.0)
+
+   .. py:property:: rotation
+      :type: Quaternion
+
+      The :class:`Quaternion` rotation of the :class:`DirectionalLight`
+
+
+
+   .. py:property:: ambient
+      :type: Vec3
+
+      The :class:`Vec3` ambient property of the :class:`DirectionalLight`
+
+
+
+   .. py:property:: diffuse
+      :type: Vec3
+
+      The :class:`Vec3` diffuse property of the :class:`DirectionalLight`
+
+
+
+   .. py:property:: specular
+      :type: Vec3
+
+      The :class:`Vec3` specular property of the :class:`DirectionalLight`
+
+
+
+   .. py:property:: intensity
+      :type: float
+
+      The intensity property of the :class:`DirectionalLight`
+
+
+
+   .. py:property:: color
+      :type: Vec3
+
+      The :class:`Vec3` color property of the :class:`DirectionalLight`
+
+
+
+.. py:class:: SpotLight(position: Vec3, rotation: Vec3 = None, color: Vec3 = None, cutoff: float = 12.5, outer_cutoff: float = 17.5, intensity: float = 1.0, reach: float = 100.0, cookie: Texture = None)
+
+   .. py:property:: position
+      :type: Vec3
+
+      The :class:`Vec3` position of the light.
+
+
+
+   .. py:property:: rotation
+      :type: Quaternion
+
+      The direction of the spotlight as a :class:`Quaternion` .
+
+
+
+   .. py:property:: cookie
+      :type: Texture
+
+      The :class:`Texture` of the light cookie the spotlight will cast if provided.
+
+
+
+   .. py:property:: color
+      :type: Vec3
+
+      The :class:`Vec3` color of the light.
+
+
+
+   .. py:property:: intensity
+      :type: float
+
+      The intensity of the light.
+
+
+
+   .. py:property:: cutoff
+      :type: float
+
+      the cutoff of the light cookie as an angle from the center.
+
+
+
+   .. py:property:: outer_cutoff
+      :type: float
+
+      the cutoff of the light cookie smoothing as an angle from the center.
+
+
+
+   .. py:property:: reach
+      :type: float
+
+      The distance the light is able to travel.
+
+
+
+.. py:class:: Collider
+
+   The Collider base class.
+
+
+   .. py:method:: check_collision(intersection: Vec3 | Collider) -> bool
+
+      Checks for a collision between this :class:`Collider`  and another :class:`Collider` or :class:`Vec3` .
+
+
+
+.. py:class:: BoxCollider(upper_bound: Vec3 = Vec3(0.0, 0.0, 0.0), lower_bound: Vec3 = Vec3(-100, -100, -100), offset: Vec3 = Vec3(0, 0, 0), rotation_offset: Vec3 | Quaternion = Vec3(0, 0, 0))
+
+   Bases: :py:obj:`Collider`
+
+
+   An Oriented Box Collider.
+
+
+   .. py:method:: from_object(object: Object3D) -> BoxCollider
+      :classmethod:
+
+
+      Constructs an :class:`BoxCollider` from an instance of :class:`Object3D` .
+
+
+
+.. py:class:: Matrix4x4(x0: float, y0: float, z0: float, w0: float, x1: float, y1: float, z1: float, w1: float, x2: float, y2: float, z2: float, w2: float, x3: float, y3: float, z3: float, w3: float)
+
+   A 4 by 4 matrix.
+
+
+   .. py:method:: from_unit(value: float) -> Matrix4x4
+      :staticmethod:
+
+
+      Creates a unit matrix filled with `value`.
+
+
+
+   .. py:method:: from_quaternion(quat: Quaternion) -> Matrix4x4
+      :staticmethod:
+
+
+      Converts a :class:`Quaternion` into a :class:`Matrix4x4` .
+
+
+
+   .. py:method:: to_quaternion() -> Quaternion
+
+      Converts the :class:`Matrix4x4` into a :class:`Quaternion` .
+
+
+
+   .. py:method:: get_up() -> Vec3
+
+      Returns the up :class:`Vec3` of the :class:`Matrix4x4` , assuming that it is being used as a transform.
+
+
+
+   .. py:method:: get_right() -> Vec3
+
+      Returns the right :class:`Vec3` of the :class:`Matrix4x4` , assuming that it is being used as a transform.
+
+
+
+   .. py:method:: get_forward() -> Vec3
+
+      Returns the forward :class:`Vec3` of the :class:`Matrix4x4` , assuming that it is being used as a transform.
+
+
+
+   .. py:method:: inverse() -> Matrix4x4
+
+      Returns the inverse of the :class:`Matrix4x4` .
+
+
+
+   .. py:method:: determinant() -> float
+
+      Returns the determinant of the :class:`Matrix4x4` .
+
+
+
+   .. py:method:: __getitem__(index: int) -> Vec4
+
+      Returns `index` th column of the :class:`Matrix4x4` as a :class:`Vec4` .
+
+
+
+   .. py:method:: __neg__() -> Matrix4x4
+
+      Negates the :class:`Matrix4x4` .
+
+
+
+   .. py:method:: __sub__(other: Matrix4x4 | float) -> Matrix4x4
+
+      Subtracts the :class:`Matrix4x4` .
+
+
+
+   .. py:method:: __add__(other: Matrix4x4 | float) -> Matrix4x4
+
+      Adds the :class:`Matrix4x4` .
+
+
+
+   .. py:method:: __mul__(other: Matrix4x4 | Vec4 | float) -> Matrix4x4 | Vec4
+
+      Multiplies the :class:`Matrix4x4` .
+
+
+
+   .. py:method:: __truediv__(other: Matrix4x4 | float) -> Matrix4x4
+
+      Divides the :class:`Matrix4x4` .
+
+
+
+.. py:class:: Matrix3x4(x0: float, y0, z0: float, w0: float, x1: float, y1: float, z1: float, w1: float, x2: float, y2: float, z2: float, w2: float)
+
+   A 3 by 4 matrix.
+
+
+   .. py:method:: from_unit(value: float) -> Matrix3x4
+      :staticmethod:
+
+
+      Creates a unit matrix filled with `value`.
+
+
+
+   .. py:method:: __getitem__(index: int) -> Vec4
+
+      Returns `index` th column of the :class:`Matrix3x4` as a :class:`Vec4` .
+
+
+
+   .. py:method:: __neg__() -> Matrix3x4
+
+      Negates the :class:`Matrix3x4` .
+
+
+
+   .. py:method:: __sub__(other: Matrix3x4 | float) -> Matrix3x4
+
+      Subtracts the :class:`Matrix3x4` .
+
+
+
+   .. py:method:: __add__(other: Matrix3x4 | float) -> Matrix3x4
+
+      Adds the :class:`Matrix3x4` .
+
+
+
+   .. py:method:: __mul__(other: float | Vec4) -> Matrix3x4 | Vec4
+
+      Multiplies the :class:`Matrix3x4` .
+
+
+
+   .. py:method:: __truediv__(other: float) -> Matrix3x4
+
+      Divides the :class:`Matrix3x4` by a scalar .
+
+
+
+.. py:class:: Matrix2x4(x0: float, y0: float, z0: float, w0: float, x1: float, y1: float, z1: float, w1: float)
+
+   A 2 by 4 matrix.
+
+
+   .. py:method:: from_unit(value: float) -> Matrix2x4
+      :staticmethod:
+
+
+      Creates a unit matrix filled with `value`.
+
+
+
+   .. py:method:: __getitem__(index: int) -> Vec4
+
+      Returns `index` th column of the :class:`Matrix2x4` as a :class:`Vec4` .
+
+
+
+   .. py:method:: __neg__() -> Matrix2x4
+
+      Negates the :class:`Matrix2x4` .
+
+
+
+   .. py:method:: __sub__(other: Matrix2x4 | float) -> Matrix2x4
+
+      Subtracts the :class:`Matrix2x4` .
+
+
+
+   .. py:method:: __add__(other: Matrix2x4 | float) -> Matrix2x4
+
+      Adds the :class:`Matrix2x4` .
+
+
+
+   .. py:method:: __mul__(other: float | Vec4) -> Matrix2x4 | Vec4
+
+      Multiplies the :class:`Matrix2x4` .
+
+
+
+   .. py:method:: __truediv__(other: float) -> Matrix2x4
+
+      Divides the :class:`Matrix2x4` by a scalar .
+
+
+
+.. py:class:: Matrix3x3(x0: float, y0: float, z0: float, x1: float, y1: float, z1: float, x2: float, y2: float, z2: float)
+
+   A 3 by 3 matrix.
+
+
+   .. py:method:: from_unit(value: float) -> Matrix3x3
+      :staticmethod:
+
+
+      Creates a unit matrix filled with `value`.
+
+
+
+   .. py:method:: to_quaternion() -> Quaternion
+
+      Converts the :class:`Matrix3x3` to a Quaternion.
+
+
+
+   .. py:method:: get_up() -> Vec3
+
+      Gets the up :class:`Vec3` of the :class:`Matrix3x3` as a transform matrix.
+
+
+
+   .. py:method:: get_right() -> Vec3
+
+      Gets the right :class:`Vec3` of the :class:`Matrix3x3` as a transform matrix.
+
+
+
+   .. py:method:: get_forward() -> Vec3
+
+      Gets the forward :class:`Vec3` of the :class:`Matrix3x3` as a transform matrix.
+
+
+
+   .. py:method:: inverse() -> Matrix3x3
+
+      Inverses the :class:`Matrix3x3` .
+
+
+
+   .. py:method:: determinant() -> float
+
+      Returns the determinant of the :class:`Matrix3x3` .
+
+
+
+   .. py:method:: __getitem__(index: int) -> Vec3
+
+      Returns `index` th column of the :class:`Matrix3x3` as a :class:`Vec3` .
+
+
+
+   .. py:method:: __neg__() -> Matrix3x3
+
+      Negates the :class:`Matrix3x3` .
+
+
+
+   .. py:method:: __sub__(other: Matrix3x3 | float) -> Matrix3x3
+
+      Subtracts the :class:`Matrix3x3` .
+
+
+
+   .. py:method:: __add__(other: Matrix3x3 | float) -> Matrix3x3
+
+      Adds the :class:`Matrix3x3` .
+
+
+
+   .. py:method:: __mul__(other: Matrix3x3 | float | Vec3) -> Matrix3x3 | Vec3
+
+      Multiplies the :class:`Matrix3x3` .
+
+
+
+   .. py:method:: __truediv__(other: Matrix3x3 | float) -> Matrix3x3
+
+      Divides the :class:`Matrix3x3` .
+
+
+
+.. py:class:: Matrix4x3(x0: float, y0: float, z0: float, x1: float, y1: float, z1: float, x2: float, y2: float, z2: float, x3: float, y3: float, z3: float)
+
+   A 4 by 3 matrix.
+
+
+   .. py:method:: from_unit(value: float) -> Matrix4x3
+      :staticmethod:
+
+
+      Creates a unit matrix filled with `value`.
+
+
+
+   .. py:method:: __getitem__(index: int) -> Vec3
+
+      Returns `index` th column of the :class:`Matrix4x3` as a :class:`Vec3` .
+
+
+
+   .. py:method:: __neg__() -> Matrix4x3
+
+      Negates the :class:`Matrix4x3` .
+
+
+
+   .. py:method:: __sub__(other: Matrix4x3 | float) -> Matrix4x3
+
+      Subtracts the :class:`Matrix4x3` .
+
+
+
+   .. py:method:: __add__(other: Matrix4x3 | float) -> Matrix4x3
+
+      Adds the :class:`Matrix4x3` .
+
+
+
+   .. py:method:: __mul__(other: float | Vec4) -> Matrix4x3 | Vec3
+
+      Multiplies the :class:`Matrix4x3` .
+
+
+
+   .. py:method:: __truediv__(other: float) -> Matrix4x3
+
+      Divides the :class:`Matrix4x3` by a scalar.
+
+
+
+.. py:class:: Matrix2x3(x0: float, y0: float, z0: float, x1: float, y1: float, z1: float)
+
+   A 2 by 3 matrix.
+
+
+   .. py:method:: from_unit(value: float) -> Matrix2x3
+      :staticmethod:
+
+
+      Creates a unit matrix filled with `value`.
+
+
+
+   .. py:method:: __getitem__(index: int) -> Vec3
+
+      Returns `index` th column of the :class:`Matrix4x3` as a :class:`Vec3` .
+
+
+
+   .. py:method:: __neg__() -> Matrix2x3
+
+      Negates the :class:`Matrix2x3` .
+
+
+
+   .. py:method:: __sub__(other: Matrix2x3 | float) -> Matrix2x3
+
+      Subtracts the :class:`Matrix2x3` .
+
+
+
+   .. py:method:: __add__(other: Matrix2x3 | float) -> Matrix2x3
+
+      Adds the :class:`Matrix2x3` .
+
+
+
+   .. py:method:: __mul__(other: float | Vec2 | Vec3) -> Matrix2x3 | Vec3
+
+      Multiplies the :class:`Matrix2x3` .
+
+
+
+   .. py:method:: __truediv__(other: float) -> Matrix2x3
+
+      Divides the :class:`Matrix2x3` by a scalar.
+
+
+
+.. py:class:: Matrix2x2(x0: float, y0: float, x1: float, y1: float)
+
+   A 2 by 2 matrix.
+
+
+   .. py:method:: from_unit(value: float) -> Matrix2x2
+      :staticmethod:
+
+
+      Creates a unit matrix filled with `value`.
+
+
+
+   .. py:method:: inverse() -> Matrix2x2
+
+      Inverses the :class:`Matrix2x2` .
+
+
+
+   .. py:method:: determinant() -> float
+
+      Returns the determinant of the :class:`Matrix2x2` .
+
+
+
+   .. py:method:: __getitem__(index: int) -> Vec2
+
+      Returns `index` th column of the :class:`Matrix2x2` as a :class:`Vec2` .
+
+
+
+   .. py:method:: __neg__() -> Matrix2x2
+
+      Negates the :class:`Matrix2x2` .
+
+
+
+   .. py:method:: __sub__(other: Matrix2x2 | float) -> Matrix2x2
+
+      Subtracts the :class:`Matrix2x2` .
+
+
+
+   .. py:method:: __add__(other: Matrix2x2 | float) -> Matrix2x2
+
+      Adds the :class:`Matrix2x2` .
+
+
+
+   .. py:method:: __mul__(other: Matrix2x2 | float | Vec2) -> Matrix2x2 | Vec2
+
+      Multiplies the :class:`Matrix2x2` .
+
+
+
+   .. py:method:: __truediv__(other: Matrix2x2 | float) -> Matrix2x2
+
+      Divides the :class:`Matrix2x2` .
+
+
+
+.. py:class:: Matrix3x2(x0: float, y0: float, x1: float, y1: float, x2: float, y2: float)
+
+   A 3 by 2 matrix.
+
+
+   .. py:method:: from_unit(value: float) -> Matrix3x2
+      :staticmethod:
+
+
+      Creates a unit matrix filled with `value`.
+
+
+
+   .. py:method:: __getitem__(index: int) -> Vec2
+
+      Returns `index` th column of the :class:`Matrix3x2` as a :class:`Vec2` .
+
+
+
+   .. py:method:: __neg__() -> Matrix3x2
+
+      Negates the :class:`Matrix3x2` .
+
+
+
+   .. py:method:: __sub__(other: Matrix3x2 | float) -> Matrix3x2
+
+      Subtracts the :class:`Matrix3x2`.
+
+
+
+   .. py:method:: __add__(other: Matrix3x2 | float) -> Matrix3x2
+
+      Adds the :class:`Matrix3x2` .
+
+
+
+   .. py:method:: __mul__(other: float | Vec3) -> Matrix3x2 | Vec2
+
+      Multiplies the :class:`Matrix3x2` .
+
+
+
+   .. py:method:: __truediv__(other: float) -> Matrix3x2
+
+      Divides the :class:`Matrix3x2` by a scalar.
+
+
+
+.. py:class:: Matrix4x2(x0: float, y0: float, x1: float, y1: float, x2: float, y2: float, x3: float, y3: float)
+
+   A 4 by 2 matrix.
+
+
+   .. py:method:: from_unit(value: float) -> Matrix4x2
+      :staticmethod:
+
+
+      Creates a unit matrix filled with `value`.
+
+
+
+   .. py:method:: __getitem__(index: int) -> Vec2
+
+      Returns `index` th column of the :class:`Matrix4x2` as a :class:`Vec2` .
+
+
+
+   .. py:method:: __neg__() -> Matrix4x2
+
+      Negates the :class:`Matrix4x2` .
+
+
+
+   .. py:method:: __sub__(other: Matrix4x2 | float) -> Matrix4x2
+
+      Subtracts the :class:`Matrix4x2` .
+
+
+
+   .. py:method:: __add__(other: Matrix4x2 | float) -> Matrix4x2
+
+      Adds the :class:`Matrix4x2` .
+
+
+
+   .. py:method:: __mul__(other: float | Vec4) -> Matrix4x2 | Vec2
+
+      Multiplies the :class:`Matrix4x2` .
+
+
+
+   .. py:method:: __truediv__(other: float) -> Matrix4x2
+
+      Divides the :class:`Matrix4x2` by a scalar.
 
 
 
