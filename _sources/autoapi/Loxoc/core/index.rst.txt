@@ -56,6 +56,10 @@ Classes
    Loxoc.core.Matrix2x2
    Loxoc.core.Matrix3x2
    Loxoc.core.Matrix4x2
+   Loxoc.core.Font
+   Loxoc.core.Text
+   Loxoc.core.CubeMap
+   Loxoc.core.SkyBox
 
 
 Module Contents
@@ -609,6 +613,13 @@ Module Contents
 
 
 
+   .. py:property:: sky_box
+      :type: SkyBox
+
+      The :class:`Skybox` .
+
+
+
    .. py:property:: event
       :type: Event
 
@@ -787,6 +798,30 @@ Module Contents
    .. py:method:: remove_spot_light_list(objs: list[SpotLight]) -> None
 
       Removes multiple :class:`SpotLight` s from the scene.  Only :class:`SpotLight` s which are in the scene will be rendered by the camera.
+
+
+
+   .. py:method:: add_text(obj: Text) -> None
+
+      Adds the :class:`Text` to the scene.  This ensures that the :class:`Text` is rendered by the camera.
+
+
+
+   .. py:method:: remove_text(obj: Text) -> None
+
+      Removes the :class:`Text` from the scene.  Only :class:`Text` s which are in the scene will be rendered by the camera.
+
+
+
+   .. py:method:: add_text_list(objs: list[Text]) -> None
+
+      Adds multiple :class:`Text` s to the scene.  This ensures that they are rendered by the camera.
+
+
+
+   .. py:method:: remove_text_list(objs: list[Text]) -> None
+
+      Removes multiple :class:`Text` s from the scene.  Only :class:`Text` s which are in the scene will be rendered by the camera.
 
 
 
@@ -2361,6 +2396,82 @@ Module Contents
    .. py:method:: __truediv__(other: float) -> Matrix4x2
 
       Divides the :class:`Matrix4x2` by a scalar.
+
+
+
+.. py:class:: Font(font_path: str, font_size: int = 48)
+
+   Renders the specified Font to the screen.  Usable with :class:`Text` .
+
+
+.. py:class:: Text(text_string: str, color: Vec4, position: Vec2, scale: Vec2 = Vec2(1.0, 1.0), rotation: float = 0, font: Font | None = None, material: Material | None = None)
+
+   Renders the specified Text to the screen with the specified :class:`Font` .
+
+
+   .. py:property:: rotation
+      :type: float
+
+      The rotation of the text.
+
+
+
+   .. py:property:: position
+      :type: Vec2
+
+      The :class:`Vec2` position of the text.
+
+
+
+   .. py:property:: scale
+      :type: Vec2
+
+      The :class:`Vec2` scale of the text.
+
+
+
+   .. py:property:: color
+      :type: Vec4
+
+      The :class:`Vec4` color of the text.
+
+
+
+   .. py:property:: material
+      :type: Material
+
+      The :class:`Material` of the text.
+
+
+
+   .. py:property:: font
+      :type: Font
+
+      The :class:`Font` of the text.
+
+
+
+.. py:class:: CubeMap(right_path: str, left_path: str, top_path: str, bottom_path: str, back_path: str, front_path: str)
+
+   A cubemap.  Can be used to create a :class:`SkyBox` .
+
+
+.. py:class:: SkyBox(cube_map: CubeMap, mat: Material | None = None)
+
+   A :class:`CubeMap` skybox. Can be applied to :property:`Window.sky_box` .
+
+
+   .. py:property:: material
+      :type: Material
+
+      The :class:`Material` used to render the :class:`SkyBox` .
+
+
+
+   .. py:property:: cubemap
+      :type: CubeMap
+
+      The :class:`CubeMap` used in rendering the :class:`SkyBox` .
 
 
 
