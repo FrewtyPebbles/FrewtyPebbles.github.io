@@ -22,6 +22,7 @@ Classes
    Loxoc.core.Mesh
    Loxoc.core.MeshDict
    Loxoc.core.Material
+   Loxoc.core.Model
    Loxoc.core.Object3D
    Loxoc.core.Shader
    Loxoc.core.Vec4
@@ -47,6 +48,7 @@ Classes
    Loxoc.core.SpotLight
    Loxoc.core.Collider
    Loxoc.core.BoxCollider
+   Loxoc.core.ConvexCollider
    Loxoc.core.Matrix4x4
    Loxoc.core.Matrix3x4
    Loxoc.core.Matrix2x4
@@ -60,6 +62,7 @@ Classes
    Loxoc.core.Text
    Loxoc.core.CubeMap
    Loxoc.core.SkyBox
+   Loxoc.core.Emitter
 
 
 Module Contents
@@ -92,9 +95,73 @@ Module Contents
       :type:  ShaderType
 
 
+   .. py:attribute:: GEOMETRY
+      :type:  ShaderType
+
+
+   .. py:attribute:: COMPUTE
+      :type:  ShaderType
+
+
 .. py:class:: Camera(position: Vec3, rotation: Vec3, view_width: int, view_height: int, focal_length: float, fov: float)
 
    This class is the 3d perspective for a :class:`Window`.
+
+
+   .. py:property:: view_width
+      :type: int
+
+      The view width of the camera.
+
+
+
+   .. py:property:: view_height
+      :type: int
+
+      The view height of the camera.
+
+
+
+   .. py:property:: focal_length
+      :type: float
+
+      The focal length of the camera.
+
+
+
+   .. py:property:: fov
+      :type: float
+
+      The field of view of the camera.
+
+
+
+   .. py:property:: deltatime
+      :type: float
+
+      The deltatime of the :class:`Window` the camera is attached to.
+
+
+
+   .. py:property:: dt
+      :type: float
+
+      The deltatime of the :class:`Window` the camera is attached to.
+
+
+
+   .. py:property:: time_ns
+      :type: int
+
+      The time in nanoseconds since the creation of the :class:`Window` the camera is attached to.
+
+
+
+   .. py:property:: time
+      :type: int
+
+      The time in seconds since the creation of the :class:`Window` the camera is attached to.
+
 
 
    .. py:property:: position
@@ -116,11 +183,11 @@ Module Contents
    This class is used to create/load meshes.
 
 
-   .. py:method:: from_file(file_path: str) -> MeshDict
+   .. py:method:: from_file(file_path: str, animated: bool = False) -> Model
       :staticmethod:
 
 
-      Returns all of the meshes from the supplied path to the 3d file.
+      Returns the :class:`Model` instance created from the provided file.  If the 3D asset contains animations, set `animated` to `True` .
 
 
 
@@ -135,24 +202,24 @@ Module Contents
 
 .. py:class:: MeshDict(name: str, meshes: list[Mesh | MeshDict])
 
-   :class:`Loxoc.MeshDict` is a datastructure that acts like a statically typed dictionary storing each :class:`Mesh` by name.
-   This is nessicary because 3D asset files can have more than one :class:`Mesh` in them.  If you have a 3D
-   asset file with more than one :class:`Mesh` inside of it, you can extract them from their :class:`MeshDict`
-   to new individual :class:`MeshDict` s to be used in :class:`Object3D` s like so:
+   :class:`Loxoc.MeshDict` is a datastructure that acts like a statically typed dictionary storing each :class:`Mesh<Loxoc.Mesh>` by name.
+   This is nessicary because 3D asset files can have more than one :class:`Mesh<Loxoc.Mesh>` in them.  If you have a 3D
+   asset file with more than one :class:`Mesh<Loxoc.Mesh>` inside of it, you can extract them from their :class:`MeshDict<Loxoc.MeshDict>`
+   to new individual :class:`MeshDict<Loxoc.MeshDict>` s and then to :class:`Model<Loxoc.Model>` s to be used in :class:`Object3D<Loxoc.Object3D>` s like so:
 
-       .. code-block:: python
+   .. code-block:: python
 
-           my_assets: MeshDict = Mesh.from_file("./assets/models/model_name/model_name.gltf")
-           # Import the 3D asset file.
-           
-           player_model = MeshDict("player_model_mesh", [my_assets["player_model"]])
-           # Extract the Mesh into its own group/MeshDict
+       my_assets: MeshDict = Model.from_file("./assets/models/model_name/model_name.gltf").mesh_dict
+       # Import the 3D asset file.
+       
+       player_md = MeshDict("player_model_mesh", [my_assets["player_model"]])
+       # Extract the Mesh into its own group/MeshDict
 
-           player_object = Object3D(player_model, Vec3(0.0, 0.0, 20.0), vec3(0.0, 0.0, 0.0), vec3(1.0, 1.0, 1.0))
-           # Now our model is ready to be used.
+       player_object = Object3D(Model(player_md), Vec3(0.0, 0.0, 20.0), vec3(0.0, 0.0, 0.0), vec3(1.0, 1.0, 1.0))
+       # Now our model is ready to be used.
 
-   We can extract the :class:`Mesh` s we need from the ``my_assets``  :class:`MeshDict` by name.
-   Hence we use ``my_assets["player_model"]``.  This is assuming your desired :class:`Mesh`
+   We can extract the :class:`Mesh<Loxoc.Mesh>` s we need from the ``my_assets``  :class:`MeshDict<Loxoc.MeshDict>` by name.
+   Hence we use ``my_assets["player_model"]``.  This is assuming your desired :class:`Mesh<Loxoc.Mesh>`
    is at the top level of your imported 3D file/asset's heirarchy.  if it is in a group inside
    the 3D file/asset you imported you could do something like:
    ``my_assets["group_name"]["player_model"]``
@@ -193,7 +260,7 @@ Module Contents
 
 
 
-.. py:class:: Material(vertex: Shader = None, fragment: Shader = None)
+.. py:class:: Material(vertex: Shader | None = None, fragment: Shader | None = None, geometry: Shader | None = None, compute: Shader | None = None, animated: bool = False)
 
    This decides how to render an Object (:class:`Object3D` or :class:`Object2D`).
 
@@ -206,22 +273,71 @@ Module Contents
 
 
 
-.. py:class:: Object3D(mesh_data: MeshDict, position: Vec3 = Vec3(0.0, 0.0, 0.0), rotation: Vec3 = Vec3(0.0, 0.0, 0.0), scale: Vec3 = Vec3(1.0, 1.0, 1.0), collider: Collider | None = None, material: Material | None = None)
+.. py:class:: Model(mesh_dict: MeshDict, animated: bool = False)
+
+   Holds all model data for an imported 3D asset file.
+
+
+   .. py:method:: from_file(file_path: str, animated: bool = False) -> Model
+      :staticmethod:
+
+
+      Returns the :class:`Model` instance created from the provided file.  If the 3D asset contains animations, set `animated` to `True` .
+
+
+
+   .. py:property:: use_default_material_properties
+      :type: bool
+
+      Uses the :class:`Material` properties defined by each :class:`Mesh` 's :class:`Material` . This only has an effect if the :class:`Object3D` of interest has an object-level :class:`Material` set (having an object-level :class:`Material` means the :class:`Object3D` 's `Object3D.material` attribute is set.).
+      When there is an object-level :class:`Material` set, the default value for `use_default_material_properties` is `False`.
+
+
+
+   .. py:method:: play_animation(animation: str) -> None
+
+      Plays the specified animation.
+
+
+
+   .. py:property:: mesh_dict
+      :type: MeshDict
+
+      The :class:`Model` 's :class:`MeshDict` .
+
+
+
+   .. py:property:: animated
+      :type: bool
+
+      Whether or not the model has animations.  If it does set this to true.
+
+
+
+.. py:class:: Object3D(model_data: Model, position: Vec3 = Vec3(0.0, 0.0, 0.0), rotation: Vec3 = Vec3(0.0, 0.0, 0.0), scale: Vec3 = Vec3(1.0, 1.0, 1.0), collider: Collider | None = None, material: Material | None = None)
 
    This class is your 3D game object.
 
 
-   .. py:attribute:: mesh_data
-      :type:  MeshDict
+   .. py:property:: use_default_material_properties
+      :type: bool
 
-      The :class:`MeshDict` which stores all of the :class:`Mesh` s for the :class:`Object3D`
+      Uses the :class:`Material` properties defined by each :class:`Mesh` 's :class:`Material` . This only has an effect if the :class:`Object3D` of interest has an object-level :class:`Material` set (having an object-level :class:`Material` means the :class:`Object3D` 's `Object3D.material` attribute is set.).
+      When there is an object-level :class:`Material` set, the default value for `use_default_material_properties` is `False`.
 
 
 
-   .. py:attribute:: material
-      :type:  Material
+   .. py:property:: material
+      :type: Vec3
 
       The :class:`Material` used to specify how to render the :class:`Object3D`
+
+
+
+   .. py:property:: model
+      :type: Model
+
+      The :class:`Model` of the :class:`Object3D`
 
 
 
@@ -246,6 +362,12 @@ Module Contents
    .. py:method:: get_model_matrix() -> Matrix4x4
 
       Returns an instance of the model matrix as a :class:`Matrix4x4` .
+
+
+
+   .. py:method:: play_animation(animation_name: str) -> None
+
+      Plays the specified animation by name of the model.
 
 
 
@@ -613,6 +735,20 @@ Module Contents
 
 
 
+   .. py:property:: fullscreen
+      :type: bool
+
+      Wether to render the window in fullscreen mode (`True`) or not (`False`).
+
+
+
+   .. py:property:: resizeable
+      :type: bool
+
+      This flag determines wether or not the window is resizeable.  The default value is `True`.
+
+
+
    .. py:property:: sky_box
       :type: SkyBox
 
@@ -822,6 +958,30 @@ Module Contents
    .. py:method:: remove_text_list(objs: list[Text]) -> None
 
       Removes multiple :class:`Text` s from the scene.  Only :class:`Text` s which are in the scene will be rendered by the camera.
+
+
+
+   .. py:method:: add_emitter(obj: Emitter) -> None
+
+      Adds the :class:`Emitter` to the scene.  This ensures that the :class:`Emitter` is rendered by the camera.
+
+
+
+   .. py:method:: remove_emitter(obj: Emitter) -> None
+
+      Removes the :class:`Emitter` from the scene.  Only :class:`Emitter` s which are in the scene will be rendered by the camera.
+
+
+
+   .. py:method:: add_emitter_list(objs: list[Emitter]) -> None
+
+      Adds multiple :class:`Emitter` s to the scene.  This ensures that they are rendered by the camera.
+
+
+
+   .. py:method:: remove_emitter_list(objs: list[Emitter]) -> None
+
+      Removes multiple :class:`Emitter` s from the scene.  Only :class:`Emitter` s which are in the scene will be rendered by the camera.
 
 
 
@@ -1117,6 +1277,10 @@ Module Contents
 
 
    .. py:attribute:: MOUSE_MOTION
+      :type:  EVENT_FLAG
+
+
+   .. py:attribute:: WINDOW_RESIZE
       :type:  EVENT_FLAG
 
 
@@ -1595,6 +1759,12 @@ Module Contents
 
 
 
+   .. py:method:: slerp(other: Quaternion, ratio: float) -> Quaternion
+
+      Returns a slerped :class:`Quaternion` between two :class:`Quaternion` by the provided ratio.
+
+
+
 .. py:class:: TextureFiltering(*args, **kwds)
 
    Bases: :py:obj:`enum.Enum`
@@ -1672,7 +1842,7 @@ Module Contents
 
 
 
-.. py:class:: Object2D(sprite: Sprite, position: Vec2 = Vec2(0.0, 0.0), rotation: float = 0.0, scale: Vec2 = Vec2(1.0, 1.0), material: Material = None)
+.. py:class:: Object2D(sprite: Sprite, position: Vec2 = Vec2(0.0, 0.0), depth: float = 0.0, rotation: float = 0.0, scale: Vec2 = Vec2(1.0, 1.0), material: Material = None)
 
    An 2 Dimensional Object which is rendered infront of all :class:`Object3D` s on the screen.  Good for GUI, HUD interfaces, or anything else 2D.
 
@@ -1681,6 +1851,13 @@ Module Contents
       :type: Vec2
 
       The position of the :class:`Object2D` on the screen as a :class:`Vec2`.
+
+
+
+   .. py:property:: depth
+      :type: float
+
+      The depth layer of the :class:`Sprite` when rendered, or "z" position.  :class:`Object2D` s with a higher depth are rendered underneath :class:`Object2D` s with a lower depth.
 
 
 
@@ -1844,13 +2021,45 @@ Module Contents
    The Collider base class.
 
 
-   .. py:method:: check_collision(intersection: Vec3 | Collider) -> bool
+   .. py:method:: check_collision(intersection: Vec3 | Collider | Object3D) -> bool
 
-      Checks for a collision between this :class:`Collider`  and another :class:`Collider` or :class:`Vec3` .
+      Checks for a collision between this :class:`Collider`  and another :class:`Collider` , :class:`Object3D` or :class:`Vec3` .
 
 
 
-.. py:class:: BoxCollider(upper_bound: Vec3 = Vec3(0.0, 0.0, 0.0), lower_bound: Vec3 = Vec3(-100, -100, -100), offset: Vec3 = Vec3(0, 0, 0), rotation_offset: Vec3 | Quaternion = Vec3(0, 0, 0))
+   .. py:property:: offset
+      :type: Vec3
+
+      The :class:`Vec3` offset of the collider.
+
+
+
+   .. py:property:: rotation
+      :type: Quaternion
+
+      The :class:`Quaternion` rotation of the collider.
+
+
+
+   .. py:property:: scale
+      :type: Vec3
+
+      The :class:`Vec3` scale of the collider.
+
+
+
+   .. py:property:: show
+      Makes the collider visible.  Good for debugging purposes.
+
+
+
+   .. py:method:: dbg_render(cam: Camera) -> None
+
+      Call this function when you wish to show a collider's collision mesh despite the collider not having an owner.  (This api is temporary until future game engine systems are implemented.)
+
+
+
+.. py:class:: BoxCollider(object: Object3D, offset: Vec3 = Vec3(0, 0, 0), rotation: Vec3 | Quaternion = Vec3(0, 0, 0), scale: Vec3 = Vec3(1.0, 1.0, 1.0))
 
    Bases: :py:obj:`Collider`
 
@@ -1858,11 +2067,35 @@ Module Contents
    An Oriented Box Collider.
 
 
-   .. py:method:: from_object(object: Object3D) -> BoxCollider
+   .. py:method:: from_bounds(upper_bound: Vec3 = Vec3(10, 10, 10), lower_bound: Vec3 = Vec3(-10, -10, -10), offset: Vec3 = Vec3(0, 0, 0), rotation: Vec3 | Quaternion = Vec3(0, 0, 0), scale: Vec3 = Vec3(1.0, 1.0, 1.0)) -> BoxCollider
       :classmethod:
 
 
-      Constructs an :class:`BoxCollider` from an instance of :class:`Object3D` .
+      Constructs an :class:`BoxCollider` from the provided bounds.
+
+
+
+.. py:class:: ConvexCollider(object: Object3D, offset: Vec3 = Vec3(0, 0, 0), rotation: Vec3 | Quaternion = Vec3(0, 0, 0), scale: Vec3 = Vec3(1.0, 1.0, 1.0))
+
+   Bases: :py:obj:`Collider`
+
+
+   A convex hull collider.
+
+
+   .. py:method:: from_mesh(msh: Mesh, offset: Vec3 = Vec3(0, 0, 0), rotation: Vec3 | Quaternion = Vec3(0, 0, 0), scale: Vec3 = Vec3(1.0, 1.0, 1.0)) -> BoxCollider
+      :classmethod:
+
+
+      Creates a :class:`ConvexCollider` from the provided :class:`Mesh` .
+
+
+
+   .. py:method:: from_mesh_dict(msh_dict: MeshDict, offset: Vec3 = Vec3(0, 0, 0), rotation: Vec3 | Quaternion = Vec3(0, 0, 0), scale: Vec3 = Vec3(1.0, 1.0, 1.0)) -> BoxCollider
+      :classmethod:
+
+
+      Creates a :class:`ConvexCollider` from the provided :class:`MeshDict` .
 
 
 
@@ -1871,11 +2104,35 @@ Module Contents
    A 4 by 4 matrix.
 
 
-   .. py:method:: from_unit(value: float) -> Matrix4x4
+   .. py:method:: from_identity(value: float) -> Matrix4x4
       :staticmethod:
 
 
-      Creates a unit matrix filled with `value`.
+      Creates a identity matrix with `value`.
+
+
+
+   .. py:method:: from_ortho(left: float, right: float, bottom: float, top: float, zNear: float | None = None, zFar: float | None = None) -> Matrix4x4
+      :staticmethod:
+
+
+      Creates an orthographic projection :class:`Matrix4x4` with the specified bounds.
+
+
+
+   .. py:method:: look_at(eye: Vec3, center: Vec3, up: Vec3) -> Matrix4x4
+      :staticmethod:
+
+
+      Creates a look at :class:`Matrix4x4` from the specified parameters.
+
+
+
+   .. py:method:: from_perspective(fovy: float, aspect: float, near: float, far: float) -> Matrix4x4
+      :staticmethod:
+
+
+      Creates a perspective projection :class:`Matrix4x4` with the specified bounds.
 
 
 
@@ -1914,6 +2171,12 @@ Module Contents
    .. py:method:: inverse() -> Matrix4x4
 
       Returns the inverse of the :class:`Matrix4x4` .
+
+
+
+   .. py:method:: transpose() -> Matrix4x4
+
+      Transposes the matrix.
 
 
 
@@ -1964,11 +2227,11 @@ Module Contents
    A 3 by 4 matrix.
 
 
-   .. py:method:: from_unit(value: float) -> Matrix3x4
+   .. py:method:: from_identity(value: float) -> Matrix3x4
       :staticmethod:
 
 
-      Creates a unit matrix filled with `value`.
+      Creates a identity matrix with `value`.
 
 
 
@@ -2008,16 +2271,22 @@ Module Contents
 
 
 
+   .. py:method:: transpose() -> Matrix4x3
+
+      Transposes the matrix.
+
+
+
 .. py:class:: Matrix2x4(x0: float, y0: float, z0: float, w0: float, x1: float, y1: float, z1: float, w1: float)
 
    A 2 by 4 matrix.
 
 
-   .. py:method:: from_unit(value: float) -> Matrix2x4
+   .. py:method:: from_identity(value: float) -> Matrix2x4
       :staticmethod:
 
 
-      Creates a unit matrix filled with `value`.
+      Creates a identity matrix with `value`.
 
 
 
@@ -2057,16 +2326,22 @@ Module Contents
 
 
 
+   .. py:method:: transpose() -> Matrix4x2
+
+      Transposes the matrix.
+
+
+
 .. py:class:: Matrix3x3(x0: float, y0: float, z0: float, x1: float, y1: float, z1: float, x2: float, y2: float, z2: float)
 
    A 3 by 3 matrix.
 
 
-   .. py:method:: from_unit(value: float) -> Matrix3x3
+   .. py:method:: from_identity(value: float) -> Matrix3x3
       :staticmethod:
 
 
-      Creates a unit matrix filled with `value`.
+      Creates a identity matrix with `value`.
 
 
 
@@ -2142,16 +2417,22 @@ Module Contents
 
 
 
+   .. py:method:: transpose() -> Matrix3x3
+
+      Transposes the matrix.
+
+
+
 .. py:class:: Matrix4x3(x0: float, y0: float, z0: float, x1: float, y1: float, z1: float, x2: float, y2: float, z2: float, x3: float, y3: float, z3: float)
 
    A 4 by 3 matrix.
 
 
-   .. py:method:: from_unit(value: float) -> Matrix4x3
+   .. py:method:: from_identity(value: float) -> Matrix4x3
       :staticmethod:
 
 
-      Creates a unit matrix filled with `value`.
+      Creates a identity matrix with `value`.
 
 
 
@@ -2191,16 +2472,22 @@ Module Contents
 
 
 
+   .. py:method:: transpose() -> Matrix3x4
+
+      Transposes the matrix.
+
+
+
 .. py:class:: Matrix2x3(x0: float, y0: float, z0: float, x1: float, y1: float, z1: float)
 
    A 2 by 3 matrix.
 
 
-   .. py:method:: from_unit(value: float) -> Matrix2x3
+   .. py:method:: from_identity(value: float) -> Matrix2x3
       :staticmethod:
 
 
-      Creates a unit matrix filled with `value`.
+      Creates a identity matrix with `value`.
 
 
 
@@ -2240,16 +2527,22 @@ Module Contents
 
 
 
+   .. py:method:: transpose() -> Matrix3x2
+
+      Transposes the matrix.
+
+
+
 .. py:class:: Matrix2x2(x0: float, y0: float, x1: float, y1: float)
 
    A 2 by 2 matrix.
 
 
-   .. py:method:: from_unit(value: float) -> Matrix2x2
+   .. py:method:: from_identity(value: float) -> Matrix2x2
       :staticmethod:
 
 
-      Creates a unit matrix filled with `value`.
+      Creates a identity matrix with `value`.
 
 
 
@@ -2301,16 +2594,22 @@ Module Contents
 
 
 
+   .. py:method:: transpose() -> Matrix2x2
+
+      Transposes the matrix.
+
+
+
 .. py:class:: Matrix3x2(x0: float, y0: float, x1: float, y1: float, x2: float, y2: float)
 
    A 3 by 2 matrix.
 
 
-   .. py:method:: from_unit(value: float) -> Matrix3x2
+   .. py:method:: from_identity(value: float) -> Matrix3x2
       :staticmethod:
 
 
-      Creates a unit matrix filled with `value`.
+      Creates a identity matrix with `value`.
 
 
 
@@ -2350,16 +2649,22 @@ Module Contents
 
 
 
+   .. py:method:: transpose() -> Matrix2x3
+
+      Transposes the matrix.
+
+
+
 .. py:class:: Matrix4x2(x0: float, y0: float, x1: float, y1: float, x2: float, y2: float, x3: float, y3: float)
 
    A 4 by 2 matrix.
 
 
-   .. py:method:: from_unit(value: float) -> Matrix4x2
+   .. py:method:: from_identity(value: float) -> Matrix4x2
       :staticmethod:
 
 
-      Creates a unit matrix filled with `value`.
+      Creates a identity matrix with `value`.
 
 
 
@@ -2396,6 +2701,12 @@ Module Contents
    .. py:method:: __truediv__(other: float) -> Matrix4x2
 
       Divides the :class:`Matrix4x2` by a scalar.
+
+
+
+   .. py:method:: transpose() -> Matrix2x4
+
+      Transposes the matrix.
 
 
 
@@ -2458,7 +2769,7 @@ Module Contents
 
 .. py:class:: SkyBox(cube_map: CubeMap, mat: Material | None = None)
 
-   A :class:`CubeMap` skybox. Can be applied to :property:`Window.sky_box` .
+   A :class:`CubeMap` skybox. Can be applied to :attr:`Window.sky_box` .
 
 
    .. py:property:: material
@@ -2472,6 +2783,128 @@ Module Contents
       :type: CubeMap
 
       The :class:`CubeMap` used in rendering the :class:`SkyBox` .
+
+
+
+.. py:class:: Emitter(position: Vec3, direction: Quaternion, scale_min: Vec2 = Vec2(1.0, 1.0), scale_max: Vec2 = Vec2(1.0, 1.0), rate: int = 50, decay_rate: float = 1.0, spread: float = math.radians(30), velocity_decay: float = 1.0, start_velocity_min: float = 1.0, start_velocity_max: float = 1.0, start_lifetime_min: float = 10.0, start_lifetime_max: float = 10.0, color_min: Vec4 = Vec4(1.0, 1.0, 1.0, 1.0), color_max: Vec4 = Vec4(1.0, 1.0, 1.0, 1.0), material: Material | None = None)
+
+   Emits particles.
+
+
+   .. py:method:: start() -> None
+
+      Starts emitting particles.
+
+
+
+   .. py:method:: stop() -> None
+
+      Stops emitting particles.
+
+
+
+   .. py:property:: material
+      :type: Material
+
+      The :class:`Material` for the particle.
+
+
+
+   .. py:property:: position
+      :type: Vec3
+
+      The :class:`Vec3` position of the emitter.
+
+
+
+   .. py:property:: direction
+      :type: Quaternion
+
+      The :class:`Quaternion` direction of the emitter.
+
+
+
+   .. py:property:: color_min
+      :type: Vec4
+
+      The :class:`Vec4` minimum color of the particles.  The color of the particle will be randomly selected between `Emitter.color_min` and `Emitter.color_max` .
+
+
+
+   .. py:property:: color_max
+      :type: Vec4
+
+      The :class:`Vec4` maximum color of the particles.  The color of the particle will be randomly selected between `Emitter.color_min` and `Emitter.color_max` .
+
+
+
+   .. py:property:: scale_min
+      :type: Vec2
+
+      The :class:`Vec2` minimum scale of the particles.  The scale of the particle will be randomly selected between `Emitter.scale_min` and `Emitter.scale_max` .
+
+
+
+   .. py:property:: scale_max
+      :type: Vec2
+
+      The :class:`Vec2` maximum scale of the particles.  The scale of the particle will be randomly selected between `Emitter.scale_min` and `Emitter.scale_max` .
+
+
+
+   .. py:property:: rate
+      :type: int
+
+      The ammount of particles present at any one time.
+
+
+
+   .. py:property:: decay_rate
+      :type: float
+
+      The speed of decay, or how much a particle's life decreases each second.  When a particle's life reaches 0, it disappears.
+
+
+
+   .. py:property:: spread
+      :type: float
+
+      The radius of the cone of particle spread.
+
+
+
+   .. py:property:: velocity_decay
+      :type: float
+
+      The ammount a particle's velocity decreases over time.
+
+
+
+   .. py:property:: start_velocity_min
+      :type: float
+
+      The minimum starting velocity of a particle.    The start velocity of a particle will be randomly selected between `Emitter.start_velocity_min` and `Emitter.start_velocity_max` .
+
+
+
+   .. py:property:: start_velocity_max
+      :type: float
+
+      The maximum starting velocity of a particle.    The start velocity of a particle will be randomly selected between `Emitter.start_velocity_min` and `Emitter.start_velocity_max` .
+
+
+
+   .. py:property:: start_lifetime_min
+      :type: float
+
+      The minimum starting life value of a particle.    The start life value of a particle will be randomly selected between `Emitter.start_lifetime_min` and `Emitter.start_lifetime_max` .
+
+
+
+   .. py:property:: start_lifetime_max
+      :type: float
+
+      The maximum starting life value of a particle.    The start life value of a particle will be randomly selected between `Emitter.start_lifetime_min` and `Emitter.start_lifetime_max` .
 
 
 
