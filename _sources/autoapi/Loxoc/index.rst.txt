@@ -58,6 +58,8 @@ Classes
    Loxoc.Collider
    Loxoc.BoxCollider
    Loxoc.ConvexCollider
+   Loxoc.RayCollider
+   Loxoc.RayHit
    Loxoc.Matrix4x4
    Loxoc.Matrix3x4
    Loxoc.Matrix2x4
@@ -72,6 +74,7 @@ Classes
    Loxoc.CubeMap
    Loxoc.SkyBox
    Loxoc.Emitter
+   Loxoc.Sound
 
 
 Package Contents
@@ -529,6 +532,12 @@ Package Contents
 
 
 
+   .. py:method:: distance(other: Vec4) -> float
+
+      The distance between two vectors as a `float` .
+
+
+
 .. py:class:: Vec3(x: float, y: float, z: float)
 
    A 3 float datastructure used to represent positional data, colors, or whatever you may need it for.
@@ -650,6 +659,12 @@ Package Contents
 
 
 
+   .. py:method:: distance(other: Vec3) -> float
+
+      The distance between two vectors as a `float` .
+
+
+
 .. py:class:: Vec2(x: float, y: float)
 
    A 2 float datastructure used to represent positional data, 2D rotation, or whatever you may need it for.
@@ -663,6 +678,9 @@ Package Contents
 
 
    .. py:method:: __neg__() -> Vec2
+
+
+   .. py:method:: __copy__() -> Vec2
 
 
    .. py:property:: angle
@@ -729,6 +747,12 @@ Package Contents
    .. py:method:: outer_product(vec: Vec2 | Vec3 | Vec4) -> Matrix2x2 | Matrix3x2 | Matrix4x2
 
       Calculates the outer product.
+
+
+
+   .. py:method:: distance(other: Vec2) -> float
+
+      The distance between two vectors as a `float` .
 
 
 
@@ -1650,7 +1674,7 @@ Package Contents
 
 
 
-   .. py:method:: rotate_pitch(value: float) -> None
+   .. py:method:: rotate_pitch(value: float) -> Quaternion
 
       Rotates the Euler pitch (x) axis by the provided value.
 
@@ -1663,7 +1687,7 @@ Package Contents
 
 
 
-   .. py:method:: rotate_yaw(value: float) -> None
+   .. py:method:: rotate_yaw(value: float) -> Quaternion
 
       Rotates the Euler yaw (y) axis by the provided value.
 
@@ -1676,7 +1700,7 @@ Package Contents
 
 
 
-   .. py:method:: rotate_roll(value: float) -> None
+   .. py:method:: rotate_roll(value: float) -> Quaternion
 
       Rotates the Euler roll (z) axis by the provided value.
 
@@ -1724,6 +1748,24 @@ Package Contents
 
 
 
+   .. py:method:: get_conjugate() -> Quaternion
+
+      The conjugate of the :class:`Quaternion` .
+
+
+
+   .. py:method:: get_inverse() -> Quaternion
+
+      The inverse of the :class:`Quaternion` .
+
+
+
+   .. py:method:: get_reverse() -> Quaternion
+
+      The 180 degree reverse of the :class:`Quaternion` .
+
+
+
    .. py:method:: from_euler(euler_vec: Vec3) -> Quaternion
       :staticmethod:
 
@@ -1759,6 +1801,14 @@ Package Contents
 
 
       Used to construct a copy of a :class:`Quaternion` .
+
+
+
+   .. py:method:: from_unit(axis: Vec3) -> Quaternion
+      :staticmethod:
+
+
+      Takes in a unit :class:`Vec3` direction and returns a :class:`Quaternion` rotated in that direction from the global forward `Vec3(0.0, 0.0, 1.0)` .
 
 
 
@@ -2105,6 +2155,95 @@ Package Contents
 
 
       Creates a :class:`ConvexCollider` from the provided :class:`MeshDict` .
+
+
+
+.. py:class:: RayCollider(origin: Vec3, direction: Quaternion)
+
+   Bases: :py:obj:`Collider`
+
+
+   A raycast collider that takes in an :class:`Vec3` origin and :class:`Quaternion` direction.
+
+
+   .. py:method:: get_collision(intersection: Collider | Object3D) -> RayHit
+
+      Checks for a collision on the `RayCollider` .  Upon colliding this function returns an instance of :class:`RayHit` .
+
+
+
+   .. py:property:: rotation
+      :type: Quaternion
+
+      The :class:`Quaternion` direction of the `RayCollider` .
+
+
+
+   .. py:property:: direction
+      :type: Quaternion
+
+      The :class:`Quaternion` direction of the `RayCollider` .
+
+
+
+   .. py:property:: offset
+      :type: Vec3
+
+      The :class:`Vec3` origin of the `RayCollider` .
+
+
+
+   .. py:property:: origin
+      :type: Vec3
+
+      The :class:`Vec3` origin of the `RayCollider` .
+
+
+
+.. py:class:: RayHit
+
+   Returned by :attr:`RayCollider.get_collision` .  This class contains information about the :class:`RayCollider` collision.
+
+
+   .. py:property:: hit
+      :type: bool
+
+      `True` if the :class:`RayCollider` has hit its target, `False` if not.
+
+
+
+   .. py:property:: has_normal
+      :type: bool
+
+      Wether the `RayHit` 's collided surface has a normal.
+
+
+
+   .. py:property:: has_distance
+      :type: bool
+
+      Wether the `RayHit` has recorded the distance between the collision point and its origin.
+
+
+
+   .. py:property:: position
+      :type: Vec3
+
+      The :class:`Vec3` position of the `RayHit` .
+
+
+
+   .. py:property:: normal
+      :type: Vec3
+
+      The :class:`Vec3` normal of the surface the :class:`RayCollider` has collided with.
+
+
+
+   .. py:property:: distance
+      :type: float
+
+      The distance between the :class:`Vec3` origin and the :class:`Vec3` position of the `RayHit` .
 
 
 
@@ -2914,6 +3053,24 @@ Package Contents
       :type: float
 
       The maximum starting life value of a particle.    The start life value of a particle will be randomly selected between `Emitter.start_lifetime_min` and `Emitter.start_lifetime_max` .
+
+
+
+.. py:class:: Sound(win: Window, source: str, loop: bool)
+
+   A sound asset.  This can also be used to play sounds directly.
+
+
+   .. py:method:: play(volume: float = 1.0, panning: float = 0.0, pitch: float = 1.0, position: Vec3 | None = None) -> None
+
+      Plays the sound globally.  If a :class:`Vec3` `position` is specified, the panning and volume will be balanced to play from that position relative to the camera.
+      It will play with the same panning and volume until the sound is finished.  For dynamic positional audio see :class:`Sound3D` .
+
+
+
+   .. py:method:: stop() -> None
+
+      Stops the sound if it is playing.
 
 
 
