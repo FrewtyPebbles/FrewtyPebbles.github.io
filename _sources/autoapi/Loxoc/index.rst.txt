@@ -1901,7 +1901,7 @@ Package Contents
 
 
 
-.. py:class:: Object2D(sprite: Sprite, position: Vec2 = Vec2(0.0, 0.0), depth: float = 0.0, rotation: float = 0.0, scale: Vec2 = Vec2(1.0, 1.0), material: Material = None)
+.. py:class:: Object2D(sprite: Sprite, camera: Camera, position: Vec2 = Vec2(0.0, 0.0), depth: float = 0.0, rotation: float = 0.0, scale: Vec2 = Vec2(1.0, 1.0), material: Material = None)
 
    An 2 Dimensional Object which is rendered infront of all :class:`Object3D` s on the screen.  Good for GUI, HUD interfaces, or anything else 2D.
 
@@ -1931,6 +1931,34 @@ Package Contents
       :type: Vec2
 
       The scale of the :class:`Object2D` on the screen as a :class:`Vec2`.
+
+
+
+   .. py:property:: untransformed_dimensions
+      :type: Vec2
+
+      The screen/camera coordinate dimensions of the :class:`Sprite` before scale is applied.
+
+
+
+   .. py:property:: dimensions
+      :type: Vec2
+
+      The true screen/camera coordinate dimensions of the :class:`Sprite` .
+
+
+
+   .. py:property:: width
+      :type: float
+
+      The true screen/camera coordinate height of the :class:`Sprite` .
+
+
+
+   .. py:property:: height
+      :type: float
+
+      The true screen/camera coordinate height of the :class:`Sprite` .
 
 
 
