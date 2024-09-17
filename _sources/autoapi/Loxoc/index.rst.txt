@@ -1804,7 +1804,7 @@ Package Contents
 
 
 
-   .. py:method:: from_unit(axis: Vec3) -> Quaternion
+   .. py:method:: from_unit(axis: Vec3, up: Vec3 | None = Vec3(0.0, 1.0, 0.0)) -> Quaternion
       :staticmethod:
 
 
