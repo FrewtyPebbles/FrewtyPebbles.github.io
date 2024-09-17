@@ -1703,7 +1703,7 @@ Module Contents
    .. py:method:: __sub__(other: Quaternion | float) -> Quaternion
 
 
-   .. py:method:: __mul__(other: Quaternion | float | Vec3) -> Quaternion
+   .. py:method:: __mul__(other: Quaternion | float | Vec3) -> Quaternion | Vec3
 
 
    .. py:method:: __truediv__(other: Quaternion | float) -> Quaternion
@@ -2926,6 +2926,13 @@ Module Contents
       :type: Font
 
       The :class:`Font` of the text.
+
+
+
+   .. py:property:: text
+      :type: str
+
+      The content of the text object.
 
 
 
