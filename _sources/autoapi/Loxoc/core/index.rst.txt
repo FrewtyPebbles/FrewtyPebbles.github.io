@@ -276,6 +276,27 @@ Module Contents
 
 
 
+   .. py:property:: diffuse_texture
+      :type: Texture
+
+      The diffuse :class:`Texture` .
+
+
+
+   .. py:property:: specular_texture
+      :type: Texture
+
+      The specular :class:`Texture` .
+
+
+
+   .. py:property:: normals_texture
+      :type: Texture
+
+      The normal :class:`Texture` .
+
+
+
 .. py:class:: Model(mesh_dict: MeshDict, animated: bool = False)
 
    Holds all model data for an imported 3D asset file.
