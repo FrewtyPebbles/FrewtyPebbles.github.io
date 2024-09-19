@@ -331,7 +331,7 @@ Module Contents
 
 
    .. py:property:: material
-      :type: Vec3
+      :type: Material
 
       The :class:`Material` used to specify how to render the :class:`Object3D`
 
@@ -1895,6 +1895,20 @@ Module Contents
 .. py:class:: Object2D(sprite: Sprite, camera: Camera, position: Vec2 = Vec2(0.0, 0.0), depth: float = 0.0, rotation: float = 0.0, scale: Vec2 = Vec2(1.0, 1.0), material: Material = None)
 
    An 2 Dimensional Object which is rendered infront of all :class:`Object3D` s on the screen.  Good for GUI, HUD interfaces, or anything else 2D.
+
+
+   .. py:property:: material
+      :type: Material
+
+      The :class:`Material` to render the :class:`Sprite` with when the :class:`Object2D` is rendered.
+
+
+
+   .. py:property:: sprite
+      :type: Sprite
+
+      The :class:`Sprite` to be displayed when the :class:`Object2D` is rendered.
+
 
 
    .. py:property:: position
