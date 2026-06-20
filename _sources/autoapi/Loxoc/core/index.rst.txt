@@ -108,7 +108,7 @@ Module Contents
 
 .. py:class:: Camera(position: Vec3, rotation: Vec3, view_width: int, view_height: int, focal_length: float, fov: float)
 
-   This class is the 3d perspective for a :class:`Window`.
+   This class is the 3D perspective for a :class:`Window`.
 
 
    .. py:property:: view_width
@@ -217,9 +217,9 @@ Module Contents
 .. py:class:: MeshDict(name: str, meshes: list[Mesh | MeshDict])
 
    :class:`Loxoc.MeshDict` is a datastructure that acts like a statically typed dictionary storing each :class:`Mesh<Loxoc.Mesh>` by name.
-   This is nessicary because 3D asset files can have more than one :class:`Mesh<Loxoc.Mesh>` in them.  If you have a 3D
+   This is necessary because 3D asset files can have more than one :class:`Mesh<Loxoc.Mesh>` in them.  If you have a 3D
    asset file with more than one :class:`Mesh<Loxoc.Mesh>` inside of it, you can extract them from their :class:`MeshDict<Loxoc.MeshDict>`
-   to new individual :class:`MeshDict<Loxoc.MeshDict>` s and then to :class:`Model<Loxoc.Model>` s to be used in :class:`Object3D<Loxoc.Object3D>` s like so:
+   to new individual :class:`MeshDict<Loxoc.MeshDict>` s and then to :class:`Model<Loxoc.Model>` s to be used in :class:`Object3D<Loxoc.Object3D>`\s like this:
 
    .. code-block:: python
 
@@ -234,8 +234,8 @@ Module Contents
 
    We can extract the :class:`Mesh<Loxoc.Mesh>` s we need from the ``my_assets``  :class:`MeshDict<Loxoc.MeshDict>` by name.
    Hence we use ``my_assets["player_model"]``.  This is assuming your desired :class:`Mesh<Loxoc.Mesh>`
-   is at the top level of your imported 3D file/asset's heirarchy.  if it is in a group inside
-   the 3D file/asset you imported you could do something like:
+   is at the top level of your imported 3D file/asset's hierarchy.  If it is in a group inside
+   the 3D file/asset you imported, you might extract it with:
    ``my_assets["group_name"]["player_model"]``
 
 
@@ -265,7 +265,7 @@ Module Contents
 
    .. py:method:: __iter__() -> Generator[tuple[str, Mesh | MeshDict], None, None]
 
-      Itterates through the key value pairs of the dict.
+      Iterates through the key value pairs of the dict.
 
 
 
@@ -352,7 +352,7 @@ Module Contents
       :type: bool
 
 
-      Whether or not the model has animations.  If it does set this to true.
+      If the model has animations, this property will evaluate to ``True``.
 
 
 
@@ -617,7 +617,7 @@ Module Contents
       :type: Vec3
 
 
-      The up directional vector from the euler representation of the :class:`Vec3` .
+      The up directional vector from the Euler representation of the :class:`Vec3` .
 
 
 
@@ -625,7 +625,7 @@ Module Contents
       :type: Vec3
 
 
-      The right directional vector from the euler representation of the :class:`Vec3` .
+      The right directional vector from the Euler representation of the :class:`Vec3` .
 
 
 
@@ -633,7 +633,7 @@ Module Contents
       :type: Vec3
 
 
-      The forward directional vector from the euler representation of the :class:`Vec3` .
+      The forward directional vector from the Euler representation of the :class:`Vec3` .
 
 
 
@@ -663,7 +663,7 @@ Module Contents
 
    .. py:method:: __truediv__(other: Vec3 | float) -> Vec3
 
-      divide 2 vectors.
+      Divide 2 vectors.
 
 
 
@@ -693,7 +693,7 @@ Module Contents
 
    .. py:method:: to_quaternion() -> Quaternion
 
-      Constructs a :class:`Quaternion` from the given euler angle :class:`Vec3` (in radians).
+      Constructs a :class:`Quaternion` from the given Euler Angle :class:`Vec3` (in radians).
 
 
 
@@ -705,7 +705,7 @@ Module Contents
 
    .. py:method:: distance(other: Vec3) -> float
 
-      The distance between two vectors as a `float` .
+      The distance between two vectors as a `float`.
 
 
 
@@ -797,13 +797,13 @@ Module Contents
 
    .. py:method:: distance(other: Vec2) -> float
 
-      The distance between two vectors as a `float` .
+      The distance between two vectors as a `float`.
 
 
 
 .. py:class:: Window(title: str, cam: Camera, width: int, height: int, fullscreen: bool = False, ambient_light: Vec3 = Vec3(1.0, 1.0, 1.0))
 
-   An application window for a game.  This class also keeps track of the state of the game engine runtime (ie. what to and not to render along with events and time).
+   An application window for a game.  This class also keeps track of the state of the game engine runtime (ie. what to and what not to render along with events and time).
 
 
    .. py:attribute:: ambient_light
@@ -817,7 +817,7 @@ Module Contents
       :type: bool
 
 
-      Wether to render the window in fullscreen mode (`True`) or not (`False`).
+      Whether to render the window in fullscreen mode (`True`) or not (`False`).
 
 
 
@@ -825,7 +825,7 @@ Module Contents
       :type: bool
 
 
-      This flag determines wether or not the window is resizeable.  The default value is `True`.
+      This flag determines whether the window is resizable. The default value is `True`.
 
 
 
@@ -841,7 +841,7 @@ Module Contents
       :type: Event
 
 
-      This is the most recent event that the window recieved durring :meth:`Window.update` .
+      This is the most recent event that the window has received during :meth:`Window.update` .
 
 
 
@@ -880,7 +880,7 @@ Module Contents
    .. py:method:: update() -> None
 
       Re-renders and refreshes the :attr:`Window.event` on the application :class:`Window` .
-      Should be used in a render/gameloop like so:
+      Should be used in a render/gameloop like this:
 
           .. code-block:: python
 
@@ -1496,7 +1496,7 @@ Module Contents
 
 .. py:class:: MouseDevice
 
-   The data for a mouse device populated durring a mouse event.
+   The data for a mouse device populated during a mouse event.
 
 
    .. py:attribute:: id
@@ -1544,7 +1544,7 @@ Module Contents
    .. py:attribute:: clicks
       :type:  int
 
-      The ammount of clicks recorded.
+      The number of clicks recorded.
 
 
 
@@ -1565,7 +1565,7 @@ Module Contents
    .. py:attribute:: button
       :type:  MOUSE_BUTTON
 
-      The button pressed durring the mouse event.
+      The button pressed during the mouse event.
 
 
 
@@ -1579,7 +1579,7 @@ Module Contents
 .. py:class:: Event
 
    This non-constructable class contains all information pertaining to :class:`Window` events.  
-   This class can be accessed/read via :class:`Window` :class:`.event<Event>` .
+   This class can be accessed/read via :class:`Window` :class:`.event<Event>`\.
 
    To check if an :class:`EVENT_FLAG` has been triggered you can use :class:`Window` :class:`.event.check_flag(...)<Event.check_flag>`:
 
@@ -1593,7 +1593,7 @@ Module Contents
 
                window.update()
        
-   This can be useful for events where you only need to chjeck if they have been triggered.  Such as quitting the game when you close the window.
+   This can be useful for events that only need to be checked if they have been triggered.  Such as quitting the game when you close the window.
 
    To check the :class:`EVENT_STATE` of an :class:`EVENT_FLAG` you can use :class:`Window` :class:`.event.get_flag(...)<Event.get_flag>`:
 
@@ -1615,13 +1615,13 @@ Module Contents
 
    .. py:method:: get_flag(_event: EVENT_FLAG) -> EVENT_STATE
 
-      Checks if the provided event flag is occuring.
+      Checks if the provided event flag is occurring.
 
 
 
    .. py:method:: check_flag(_event: EVENT_FLAG) -> bool
 
-      Checks if the provided event flag is occuring.
+      Checks if the provided event flag is occurring.
 
 
 
@@ -1641,11 +1641,11 @@ Module Contents
 
 .. py:class:: Quaternion(w: float, x: float, y: float, z: float)
 
-   A *"4 dimensional"* rotation arround a developer defined :class:`Vec3` axis.
+   A *"4 dimensional"* rotation around a developer-defined :class:`Vec3` axis.
 
-   In simple terms, a Quaternion is just an angle (in radians) rotation arround some 3D vector.  
-   For example if we wanted to rotate arround the euler y axis of an :class:`Object3D` 
-   or along "yaw" we would just rotate arroud the :class:`Object3D` :class:`.rotation.up<Quaternion.up>` vector:
+   In simple terms, a Quaternion is just an angle (in radians) rotation around some 3D vector.  
+   For example, if we wanted to rotate around the Euler y axis of an :class:`Object3D` 
+   or along "yaw" we would just rotate around the :class:`Object3D` :class:`.rotation.up<Quaternion.up>` vector:
 
        .. code-block:: python
 
@@ -1719,9 +1719,9 @@ Module Contents
       :type: Vec3
 
 
-      The euler angle :class:`Vec3` form of the Quaternion.  Can also be assigned to, but not mutated.
+      The Euler Angle :class:`Vec3` form of the Quaternion.  Can also be assigned to but not mutated.
 
-      Use :meth:`Quaternion.rotate_pitch`, :meth:`Quaternion.rotate_yaw`, and :meth:`Quaternion.rotate_roll` for mutating euler angle rotation.
+      Use :meth:`Quaternion.rotate_pitch`, :meth:`Quaternion.rotate_yaw`, and :meth:`Quaternion.rotate_roll` for mutating Euler Angle rotation.
 
 
 
@@ -1735,7 +1735,7 @@ Module Contents
 
    .. py:method:: rotate_pitch(value: float) -> Quaternion
 
-      Rotates the euler angle pitch (x) axis by the provided value.
+      Rotates the Euler Angle pitch (x) axis by the provided value.
 
 
 
@@ -1749,7 +1749,7 @@ Module Contents
 
    .. py:method:: rotate_yaw(value: float) -> Quaternion
 
-      Rotates the euler angle yaw (y) axis by the provided value.
+      Rotates the Euler Angle yaw (y) axis by the provided value.
 
 
 
@@ -1763,7 +1763,7 @@ Module Contents
 
    .. py:method:: rotate_roll(value: float) -> Quaternion
 
-      Rotates the euler angle roll (z) axis by the provided value.
+      Rotates the Euler Angle roll (z) axis by the provided value.
 
 
 
@@ -1805,7 +1805,7 @@ Module Contents
 
    .. py:method:: to_euler() -> Vec3
 
-      Converts the :class:`Quaternion` to a euler angle :class:`Vec3` (in radians).
+      Converts the :class:`Quaternion` to a Euler Angle :class:`Vec3` (in radians).
 
 
 
@@ -1823,7 +1823,7 @@ Module Contents
 
    .. py:method:: get_reverse() -> Quaternion
 
-      The 180 degree reverse of the :class:`Quaternion` .
+      The 180-degree reverse of the :class:`Quaternion` .
 
 
 
@@ -1831,7 +1831,7 @@ Module Contents
       :staticmethod:
 
 
-      Converts the provided euler angle :class:`Vec3` (in radians) to a :class:`Quaternion` .
+      Converts the provided Euler Angle :class:`Vec3` (in radians) to a :class:`Quaternion` .
 
 
 
@@ -1839,21 +1839,21 @@ Module Contents
       :staticmethod:
 
 
-      Constructs a :class:`Quaternion` with a rotation of ``angle`` arround ``axis``. 
+      Constructs a :class:`Quaternion` with a rotation of ``angle`` around ``axis``. 
 
       :arg Vec3 axis: A Euler Angle :class:`Vec3` (in radians).
 
-      :arg float angle: An angle in radians of which to rotate arround the ``axis``.
+      :arg float angle: An angle in radians of which to rotate around the ``axis``.
 
 
 
    .. py:method:: rotate(axis: Vec3, angle: float) -> None
 
-      Mutably rotates the :class:`Quaternion` by `angle` arround `axis`.
+      Mutably rotates the :class:`Quaternion` by `angle` around `axis`.
 
       :arg Vec3 axis: A Euler Angle :class:`Vec3` (in radians).
 
-      :arg float angle: An angle in radians of which to rotate arround the ``axis``.
+      :arg float angle: An angle in radians of which to rotate around the ``axis``.
 
 
 
@@ -1944,7 +1944,7 @@ Module Contents
 
 .. py:class:: Sprite(file_path: str)
 
-   The image asset which is used when rendering an :class:`Object2D`\.  Its purpose is analagous to how :class:`Mesh` is used with :class:`Object3D` but for :class:`Object2D`\s.
+   The image asset used when rendering an :class:`Object2D`\.  Its purpose is analogous to how :class:`Mesh` is used with :class:`Object3D` but for :class:`Object2D`\s.
 
 
    .. py:attribute:: texture
@@ -1964,7 +1964,7 @@ Module Contents
 
 .. py:class:: Object2D(sprite: Sprite, camera: Camera, position: Vec2 = Vec2(0.0, 0.0), depth: float = 0.0, rotation: float = 0.0, scale: Vec2 = Vec2(1.0, 1.0), material: Material = None)
 
-   An 2 Dimensional Object which is rendered infront of all :class:`Object3D` s on the screen.  Good for GUI, HUD interfaces, or anything else 2D.
+   A 2-Dimensional Object rendered in front of all :class:`Object3D`\s on the screen. Object2D is often used for GUIs, HUD interfaces, or anything else 2D.
 
 
    .. py:property:: material
@@ -2055,7 +2055,7 @@ Module Contents
 
 .. py:class:: PointLight(position: Vec3, radius: float, color: Vec3, intensity: float)
 
-   A Object that emits light from a :class:`Vec3` point in 3D space.
+   An object that emits light from a :class:`Vec3` point in 3D space.
 
 
    .. py:property:: position
@@ -2070,7 +2070,7 @@ Module Contents
       :type: Vec3
 
 
-      The :class:`Vec3` color of the light in rgb.
+      The :class:`Vec3` color of the light in RGB.
 
 
 
@@ -2086,7 +2086,7 @@ Module Contents
       :type: float
 
 
-      The radius of the light
+      The radius of the light.
 
 
 
@@ -2186,7 +2186,7 @@ Module Contents
       :type: float
 
 
-      the cutoff of the light cookie as an angle from the center.
+      The cutoff of the light cookie as an angle from the center.
 
 
 
@@ -2194,7 +2194,7 @@ Module Contents
       :type: float
 
 
-      the cutoff of the light cookie smoothing as an angle from the center.
+      The cutoff of the light cookie smoothing as an angle from the center.
 
 
 
@@ -2243,13 +2243,13 @@ Module Contents
 
    .. py:property:: show
 
-      Makes the collider visible.  Good for debugging purposes.
+      Sets the collider visibility, which is good for debugging purposes.
 
 
 
    .. py:method:: dbg_render(cam: Camera) -> None
 
-      Call this function when you wish to show a collider's collision mesh despite the collider not having an owner.  (This api is temporary until future game engine systems are implemented.)
+      Call this function when you wish to show a collider's collision mesh despite the collider not having an owner.  (This API is temporary until future game engine systems are implemented.)
 
 
 
@@ -2258,7 +2258,7 @@ Module Contents
    Bases: :py:obj:`Collider`
 
 
-   An Oriented Box Collider.
+   An oriented box collider.
 
 
    .. py:method:: from_bounds(upper_bound: Vec3 = Vec3(10, 10, 10), lower_bound: Vec3 = Vec3(-10, -10, -10), offset: Vec3 = Vec3(0, 0, 0), rotation: Vec3 | Quaternion = Vec3(0, 0, 0), scale: Vec3 = Vec3(1.0, 1.0, 1.0)) -> BoxCollider
@@ -2356,7 +2356,7 @@ Module Contents
       :type: bool
 
 
-      Wether the `RayHit` 's collided surface has a normal.
+      Whether the `RayHit`'s collided surface has a normal.
 
 
 
@@ -2364,7 +2364,7 @@ Module Contents
       :type: bool
 
 
-      Wether the `RayHit` has recorded the distance between the collision point and its origin.
+      Whether the `RayHit` has recorded the distance between the collision point and its origin.
 
 
 
@@ -2401,7 +2401,7 @@ Module Contents
       :staticmethod:
 
 
-      Creates a identity matrix with `value`.
+      Creates an identity matrix with `value`.
 
 
 
@@ -2524,7 +2524,7 @@ Module Contents
       :staticmethod:
 
 
-      Creates a identity matrix with `value`.
+      Creates an identity matrix with `value`.
 
 
 
@@ -2579,7 +2579,7 @@ Module Contents
       :staticmethod:
 
 
-      Creates a identity matrix with `value`.
+      Creates an identity matrix with `value`.
 
 
 
@@ -2634,7 +2634,7 @@ Module Contents
       :staticmethod:
 
 
-      Creates a identity matrix with `value`.
+      Creates an identity matrix with `value`.
 
 
 
@@ -2725,7 +2725,7 @@ Module Contents
       :staticmethod:
 
 
-      Creates a identity matrix with `value`.
+      Creates an identity matrix with `value`.
 
 
 
@@ -2780,7 +2780,7 @@ Module Contents
       :staticmethod:
 
 
-      Creates a identity matrix with `value`.
+      Creates an identity matrix with `value`.
 
 
 
@@ -2835,7 +2835,7 @@ Module Contents
       :staticmethod:
 
 
-      Creates a identity matrix with `value`.
+      Creates an identity matrix with `value`.
 
 
 
@@ -2902,7 +2902,7 @@ Module Contents
       :staticmethod:
 
 
-      Creates a identity matrix with `value`.
+      Creates an identity matrix with `value`.
 
 
 
@@ -2957,7 +2957,7 @@ Module Contents
       :staticmethod:
 
 
-      Creates a identity matrix with `value`.
+      Creates an identity matrix with `value`.
 
 
 
@@ -3172,7 +3172,7 @@ Module Contents
       :type: int
 
 
-      The ammount of particles present at any one time.
+      The number of particles present at any one time.
 
 
 
@@ -3196,7 +3196,7 @@ Module Contents
       :type: float
 
 
-      The ammount a particle's velocity decreases over time.
+      The amount a particle's velocity decreases over time.
 
 
 
