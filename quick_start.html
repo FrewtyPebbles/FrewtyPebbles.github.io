@@ -36,15 +36,15 @@
 <span id="quick-start-page"></span><h1>Quick Start<a class="headerlink" href="#quick-start" title="Link to this heading">¶</a></h1>
 <section id="a-brief-introduction-to-engine-name">
 <h2>A Brief Introduction to Loxoc<a class="headerlink" href="#a-brief-introduction-to-engine-name" title="Link to this heading">¶</a></h2>
-<p>This quick start covers the basics of both how the Loxoc game engine works and scaffolding a render/game loop.</p>
+<p>This Quick Start covers the basics of the Loxoc game engine and scaffolding a render/game loop.</p>
 <p>To get started, install the Loxoc engine:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">Loxoc</span>
 </pre></div>
 </div>
-<p>Loxoc was designed with a developer experience first mindset.
+<p>Loxoc was designed with a &quot;developer experience first&quot; mindset.
 If you have used game engines like <a class="reference external" href="https://www.pygame.org">Pygame</a>, the structure of a basic game/render loop should look familiar.
 In this tutorial you will learn how to create a render loop and add objects to it to be rendered.</p>
-<p>To start, we’ll create a new python file called <code class="docutils literal notranslate"><span class="pre">my_game.py</span></code> and import our dependencies.</p>
+<p>To start, we’ll create a new Python file called <code class="docutils literal notranslate"><span class="pre">my_game.py</span></code> and import our dependencies.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># my_game.py</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">Loxoc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Camera</span><span class="p">,</span> <span class="n">Window</span><span class="p">,</span> <span class="n">EVENT_FLAG</span><span class="p">,</span> <span class="n">Vec3</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
@@ -64,8 +64,8 @@ The dimensions of the <a class="reference internal" href="autoapi/Loxoc/index.ht
     <span class="n">Vec3</span><span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">))</span>
 </pre></div>
 </div>
-<p>The title bar of the window will be labeled <code class="docutils literal notranslate"><span class="pre">Loxoc</span> <span class="pre">Quick</span> <span class="pre">Start</span></code>.  We will pass in the <a class="reference internal" href="autoapi/Loxoc/index.html#Loxoc.Camera" title="Loxoc.Camera"><code class="xref py py-class docutils literal notranslate"><span class="pre">Camera</span></code></a> and dimensions from before
-Fullscreen mode will be set to false for this example. Finally, the ambient light level is assigned a red, green, and blue color value of <code class="docutils literal notranslate"><span class="pre">0.2</span></code>, <code class="docutils literal notranslate"><span class="pre">0.2</span></code>, and <code class="docutils literal notranslate"><span class="pre">0.2</span></code> respectively.</p>
+<p>The title bar of the window will be labeled <code class="docutils literal notranslate"><span class="pre">Loxoc</span> <span class="pre">Quick</span> <span class="pre">Start</span></code>.  We will pass in the <a class="reference internal" href="autoapi/Loxoc/index.html#Loxoc.Camera" title="Loxoc.Camera"><code class="xref py py-class docutils literal notranslate"><span class="pre">Camera</span></code></a> and dimensions from before.
+Fullscreen mode will be set to false for this example. Finally, the ambient light level is assigned a red, green, and blue color value of <code class="docutils literal notranslate"><span class="pre">0.2</span></code>, <code class="docutils literal notranslate"><span class="pre">0.2</span></code>, and <code class="docutils literal notranslate"><span class="pre">0.2</span></code>, respectively.</p>
 <p>Now we will learn how to add game assets to our <a class="reference internal" href="autoapi/Loxoc/index.html#Loxoc.Window" title="Loxoc.Window"><code class="xref py py-class docutils literal notranslate"><span class="pre">Window</span></code></a> to be rendered.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">window</span><span class="o">.</span><span class="n">add_object_list</span><span class="p">([</span>
     <span class="c1"># This is where we add 3D objects to be rendered to the window...</span>
@@ -82,7 +82,7 @@ Fullscreen mode will be set to false for this example. Finally, the ambient ligh
 </div>
 <p>In Loxoc, game assets to be rendered are attached to the <a class="reference internal" href="autoapi/Loxoc/index.html#Loxoc.Window" title="Loxoc.Window"><code class="xref py py-class docutils literal notranslate"><span class="pre">Window</span></code></a> they are to be rendered to.
 This is done with explicitly named functions for each type of game asset.</p>
-<p>Now that we have defined in our python file where we will attach game assets to our <a class="reference internal" href="autoapi/Loxoc/index.html#Loxoc.Window" title="Loxoc.Window"><code class="xref py py-class docutils literal notranslate"><span class="pre">Window</span></code></a>,
+<p>Now that we have defined in our Python file where we will attach game assets to our <a class="reference internal" href="autoapi/Loxoc/index.html#Loxoc.Window" title="Loxoc.Window"><code class="xref py py-class docutils literal notranslate"><span class="pre">Window</span></code></a>,
 we will create a basic scaffolding for our game loop.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">while</span> <span class="ow">not</span> <span class="n">window</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">check_flag</span><span class="p">(</span><span class="n">EVENT_FLAG</span><span class="o">.</span><span class="n">QUIT</span><span class="p">):</span>
     <span class="c1"># While the close button has not been clicked run the game loop:</span>
@@ -126,7 +126,7 @@ It is recommended to have a <code class="docutils literal notranslate"><span cla
     <span class="o">...</span><span class="n">other</span> <span class="n">project</span> <span class="n">files</span><span class="o">...</span>
 </pre></div>
 </div>
-<p>There are a few <strong>important</strong> things to take note of here:</p>
+<p><strong>Important Notes:</strong></p>
 <ul>
 <li><p>The <code class="docutils literal notranslate"><span class="pre">/textures/</span></code> directory:</p>
 <blockquote>
@@ -173,7 +173,7 @@ The <code class="docutils literal notranslate"><span class="pre">.fbx</span></co
 <span class="p">])</span>
 </pre></div>
 </div>
-<p>The <a class="reference internal" href="autoapi/Loxoc/index.html#Loxoc.Object3D" title="Loxoc.Object3D"><code class="xref py py-class docutils literal notranslate"><span class="pre">Object3D</span></code></a> we created will have a starting x, y, and z position of <code class="docutils literal notranslate"><span class="pre">0</span></code>, <code class="docutils literal notranslate"><span class="pre">0</span></code>, and <code class="docutils literal notranslate"><span class="pre">20</span></code> respectively.
+<p>The <a class="reference internal" href="autoapi/Loxoc/index.html#Loxoc.Object3D" title="Loxoc.Object3D"><code class="xref py py-class docutils literal notranslate"><span class="pre">Object3D</span></code></a> we created will have a starting x, y, and z position of <code class="docutils literal notranslate"><span class="pre">0</span></code>, <code class="docutils literal notranslate"><span class="pre">0</span></code>, and <code class="docutils literal notranslate"><span class="pre">20</span></code>, respectively.
 It will start with no initial rotation.
 It’s scale will be multipied by <code class="docutils literal notranslate"><span class="pre">1.0</span></code> in all directions. In other words, it will not be scaled at all.</p>
 <p>Now if you run the game with…</p>
@@ -215,20 +215,20 @@ the 3D file/asset you imported you could do something like:
 <li><p><a class="reference internal" href="autoapi/Loxoc/index.html#Loxoc.Object3D" title="Loxoc.Object3D"><code class="xref py py-class docutils literal notranslate"><span class="pre">Object3D</span></code></a>:</p>
 <blockquote>
 <div><p><a class="reference internal" href="autoapi/Loxoc/index.html#Loxoc.Object3D" title="Loxoc.Object3D"><code class="xref py py-class docutils literal notranslate"><span class="pre">Loxoc.Object3D</span></code></a> is our game object.  It holds the <a class="reference internal" href="autoapi/Loxoc/index.html#Loxoc.Model" title="Loxoc.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></a> to be rendered,
-the <a class="reference internal" href="autoapi/Loxoc/index.html#Loxoc.Object3D" title="Loxoc.Object3D"><code class="xref py py-class docutils literal notranslate"><span class="pre">Object3D</span></code></a>'s <a class="reference internal" href="autoapi/Loxoc/index.html#Loxoc.Vec3" title="Loxoc.Vec3"><code class="xref py py-class docutils literal notranslate"><span class="pre">Vec3</span></code></a> position, it’s <a class="reference internal" href="autoapi/Loxoc/index.html#Loxoc.Quaternion" title="Loxoc.Quaternion"><code class="xref py py-class docutils literal notranslate"><span class="pre">Quaternion</span></code></a> rotation, any object
-level uniforms to be used in it’s <a class="reference internal" href="autoapi/Loxoc/index.html#Loxoc.Material" title="Loxoc.Material"><code class="xref py py-class docutils literal notranslate"><span class="pre">Loxoc.Material</span></code></a> and much more.</p>
+the <a class="reference internal" href="autoapi/Loxoc/index.html#Loxoc.Object3D" title="Loxoc.Object3D"><code class="xref py py-class docutils literal notranslate"><span class="pre">Object3D</span></code></a>'s <a class="reference internal" href="autoapi/Loxoc/index.html#Loxoc.Vec3" title="Loxoc.Vec3"><code class="xref py py-class docutils literal notranslate"><span class="pre">Vec3</span></code></a> position, its <a class="reference internal" href="autoapi/Loxoc/index.html#Loxoc.Quaternion" title="Loxoc.Quaternion"><code class="xref py py-class docutils literal notranslate"><span class="pre">Quaternion</span></code></a> rotation, any object
+level uniforms to be used in its <a class="reference internal" href="autoapi/Loxoc/index.html#Loxoc.Material" title="Loxoc.Material"><code class="xref py py-class docutils literal notranslate"><span class="pre">Loxoc.Material</span></code></a> and much more.</p>
 </div></blockquote>
 </li>
 <li><p><a class="reference internal" href="autoapi/Loxoc/index.html#Loxoc.Window.add_object_list" title="Loxoc.Window.add_object_list"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Window.add_object_list()</span></code></a> :</p>
 <blockquote>
-<div><p><a class="reference internal" href="autoapi/Loxoc/index.html#Loxoc.Window.add_object_list" title="Loxoc.Window.add_object_list"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Loxoc.Window.add_object_list()</span></code></a> is used to add objects to the set of objects to render to the screen on <a class="reference internal" href="autoapi/Loxoc/index.html#Loxoc.Window.update" title="Loxoc.Window.update"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Window.update()</span></code></a> .
-You can think of this like creating an object in the game.  You can also remove objects with <a class="reference internal" href="autoapi/Loxoc/index.html#Loxoc.Window.remove_object" title="Loxoc.Window.remove_object"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Window.remove_object()</span></code></a> .</p>
+<div><p><a class="reference internal" href="autoapi/Loxoc/index.html#Loxoc.Window.add_object_list" title="Loxoc.Window.add_object_list"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Loxoc.Window.add_object_list()</span></code></a> is used to add objects to the set of objects to render to the screen on <a class="reference internal" href="autoapi/Loxoc/index.html#Loxoc.Window.update" title="Loxoc.Window.update"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Window.update()</span></code></a>.
+You can think of this like creating an object in the game.  You can also remove objects with <a class="reference internal" href="autoapi/Loxoc/index.html#Loxoc.Window.remove_object" title="Loxoc.Window.remove_object"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Window.remove_object()</span></code></a>.</p>
 </div></blockquote>
 </li>
 </ul>
 <p>As a final bonus for this quick start guide, we are going to make our <a class="reference internal" href="autoapi/Loxoc/index.html#Loxoc.Object3D" title="Loxoc.Object3D"><code class="xref py py-class docutils literal notranslate"><span class="pre">Object3D</span></code></a> spin!
 To do this we rotate our <a class="reference internal" href="autoapi/Loxoc/index.html#Loxoc.Object3D" title="Loxoc.Object3D"><code class="xref py py-class docutils literal notranslate"><span class="pre">Object3D</span></code></a> arround its up direction <a class="reference internal" href="autoapi/Loxoc/index.html#Loxoc.Vec3" title="Loxoc.Vec3"><code class="xref py py-class docutils literal notranslate"><span class="pre">vector</span></code></a>.
-It should look something like so:</p>
+It should look something like this:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># my_game.py</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">Loxoc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Camera</span><span class="p">,</span> <span class="n">Window</span><span class="p">,</span> <span class="n">EVENT_FLAG</span><span class="p">,</span> <span class="n">Mesh</span><span class="p">,</span> <span class="n">Object3D</span><span class="p">,</span> <span class="n">MeshDict</span><span class="p">,</span> <span class="n">Model</span><span class="p">,</span> <span class="n">Vec3</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
